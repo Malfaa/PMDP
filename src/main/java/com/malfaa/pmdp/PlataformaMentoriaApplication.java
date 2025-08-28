@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PmdpApplication {
+public class PlataformaMentoriaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PmdpApplication.class, args);
+		SpringApplication.run(PlataformaMentoriaApplication.class, args);
 	}
 
 }
