@@ -1,9 +1,7 @@
 package com.malfaa.pmdp.model;
 
 import com.malfaa.pmdp.util.Perfil;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +23,8 @@ import java.time.LocalDate;
 
 @Getter
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TIPO_USUARIO")
 public class Usuario {
     /**
      * O identificador único do usuário.
@@ -33,7 +33,8 @@ public class Usuario {
      * </p>
      */
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     /**
      * O nome completo do usuário.
