@@ -3,6 +3,8 @@ package com.malfaa.pmdp.model;
 import com.malfaa.pmdp.util.Perfil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -33,7 +35,8 @@ public class Usuario {
      * </p>
      */
     @Id
-    private int id;
+    @GeneratedValue
+    private Long id;
 
     /**
      * O nome completo do usuário.
@@ -87,6 +90,7 @@ public class Usuario {
      * </p>
      */
     @Setter
+    @Enumerated(EnumType.STRING)
     private Perfil tipo;
 
     /**
