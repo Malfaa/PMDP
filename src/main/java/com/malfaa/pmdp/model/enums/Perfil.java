@@ -1,4 +1,4 @@
-package com.malfaa.pmdp.util;
+package com.malfaa.pmdp.model.enums;
 
 public enum Perfil {
     Mentor,

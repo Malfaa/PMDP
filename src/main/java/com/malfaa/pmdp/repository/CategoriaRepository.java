@@ -2,6 +2,9 @@ package com.malfaa.pmdp.repository;
 
 import com.malfaa.pmdp.model.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  * Representa o repositório do modelo Categoria
@@ -15,7 +18,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 1.0
  */
 
- @Repository
+@Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
      /**
       * Busca uma categoria pelo seu nome exato.
@@ -24,6 +27,6 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
       * @param nome O nome da categoria a ser buscada.
       * @return um Optional contendo a Categoria encontrada, ou um Optional vazio se não encontrar.
       */
-    Optional<Categoria> findByName(String nome) ;
+    Optional<Categoria> findByName(String nome);
 
 }

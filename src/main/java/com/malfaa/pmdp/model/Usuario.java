@@ -1,6 +1,6 @@
 package com.malfaa.pmdp.model;
 
-import com.malfaa.pmdp.util.Perfil;
+import com.malfaa.pmdp.model.enums.Perfil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;

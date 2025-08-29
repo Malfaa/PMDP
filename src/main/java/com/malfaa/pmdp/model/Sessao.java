@@ -2,7 +2,7 @@ package com.malfaa.pmdp.model;
 
 import java.time.LocalTime;
 
-import com.malfaa.pmdp.util.Agendamento;
+import com.malfaa.pmdp.model.enums.Agendamento;
 
 import jakarta.persistence.*;
 import lombok.Getter;
