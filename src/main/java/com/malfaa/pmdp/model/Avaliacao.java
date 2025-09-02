@@ -4,6 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Avaliação pública feita pelo mentorado após a sessão
+ *
+ * @author Malfaa
+ * @version 1.0
+ */
 @Entity
 @Getter
 @Setter
@@ -18,7 +24,7 @@ public class Avaliacao {
     @Column(columnDefinition = "TEXT")
     private String comentario;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentorado_id", nullable = false)
     private Mentorado mentorado;
 

@@ -4,10 +4,17 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Usuário responsável pela gestão da plataforma
+ *
+ * @author Malfaa
+ * @version 1.0
+ */
 @Entity
 @Getter
 @Setter
 @DiscriminatorValue("ADMIN")
 public class Administrador extends Usuario{
-    private int nivelAdm;
+    @Column(nullable = false)
+    private Integer nivelAdm;
 }
