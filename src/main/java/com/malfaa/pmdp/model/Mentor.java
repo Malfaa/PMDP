@@ -39,7 +39,6 @@ public class Mentor extends Usuario {
     private Set<MaterialApoio> materiaisDeApoio = new HashSet<>();
 
 
-
     public Mentor() {
         categorias = new HashSet<>();
     }
