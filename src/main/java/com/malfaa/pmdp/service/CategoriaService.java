@@ -3,14 +3,12 @@ package com.malfaa.pmdp.service;
 import java.util.List;
 import java.util.Optional;
 
-import javax.naming.NameNotFoundException;
-
 import org.springframework.stereotype.Service;
 
 import com.malfaa.pmdp.model.Categoria;
 import com.malfaa.pmdp.repository.CategoriaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class CategoriaService {
@@ -20,8 +18,27 @@ public class CategoriaService {
         this.repository = repository;
     }
 
-    public Optional<Categoria> buscarCategoria(Long id){return repository.findById(id);};
-    public Optional<Categoria> buscarCategoria(String nome){ return repository.findByNome(nome);};
+    /**
+     * Função que busca uma categoria dentro do banco de dados utilizando o ID.
+     *
+     * @param id
+     * @return
+     */
+    public Optional<Categoria> buscarCategoria(Long id){return repository.findById(id);}
+
+    /**
+     * Função que busca uma categoria dentro do banco de dados utilizando o nome.
+     *
+     * @param nome
+     * @return
+     */
+    public Optional<Categoria> buscarCategoria(String nome){ return repository.findByNome(nome);}
+
+    /**
+     * Função que busca todas as categorias dentro do banco de dados.
+     *
+     * @return
+     */
     public List<Categoria> buscarAll(){return repository.findAll();};
 
 
@@ -44,7 +61,7 @@ public class CategoriaService {
      * 
      * @param categoria
      */
-    public void removerCategoria(Categoria categoria){
+    public void deletarCategoria(Categoria categoria){
         repository.delete(categoria);
     }
     
@@ -53,13 +70,20 @@ public class CategoriaService {
      * 
      * @param listaCategorias
      */
-    public void removerCategorias(List<Long> listaCategorias){
+    public void deletarCategorias(List<Long> listaCategorias){
         if(listaCategorias.isEmpty() || listaCategorias == null){
             return;
         }
         repository.deleteAllById(listaCategorias);
     }
 
+    /**
+     * Edita uma categoria, utilizando o id da que será alterada para o objeto Categoria novo.
+     *
+     * @param idCategoria
+     * @param categoriaAtualizada
+     * @return salva uma nova categoria
+     */
     @Transactional
     public Categoria editarCategoria(Long idCategoria, Categoria categoriaAtualizada){
         Categoria categoriaExist = repository.findById(idCategoria)

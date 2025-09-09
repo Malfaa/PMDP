@@ -5,9 +5,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Representa a entidade de um usuário no sistema.
@@ -25,6 +28,8 @@ import java.time.LocalDate;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TIPO_USUARIO")
+@SQLDelete(sql = "UPDATE usuario SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLRestriction("deletedAt IS NULL")
 public class Usuario {
     /**
      * O identificador único do usuário.
@@ -91,6 +96,18 @@ public class Usuario {
     private Perfil tipo;
 
     /**
+     * Registra quano que este usuário foi criado no banco.
+     */
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    /**
+     * Registra quando que esse usuário foi removido. (SOFT DELETE)
+     */
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    /**
      * Construtor padrão sem argumentos.
      * <p>
      * Exigido pelo JPA para criar instâncias da entidade.
@@ -99,4 +116,4 @@ public class Usuario {
     public Usuario(){}
 
 }
-
+//TODO createdAt quando é criado novo usuário.
