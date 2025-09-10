@@ -1,5 +1,6 @@
 package com.malfaa.pmdp.model;
 
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.malfaa.pmdp.model.enums.Perfil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -9,8 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.br.CPF;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 
 /**
  * Representa a entidade de um usuário no sistema.
@@ -99,7 +99,7 @@ public class Usuario {
      * Registra quano que este usuário foi criado no banco.
      */
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC);
 
     /**
      * Registra quando que esse usuário foi removido. (SOFT DELETE)

@@ -23,6 +23,10 @@ public class Sessao {
     @Column(name = "data_hora", nullable = false)
     private LocalDateTime dataHora;
 
+    /**
+     * Define o status que está o agendamento da sessão
+     * [AGENDADA, CONCLUIDA, CANCELADA]
+     */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Agendamento status;

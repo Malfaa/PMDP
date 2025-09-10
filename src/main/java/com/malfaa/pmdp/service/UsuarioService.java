@@ -16,15 +16,46 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    //RETORNA DA MÁQUINA A ZONA PARA MEDIR CORRETAMENTE O FUSO HORÁRIO
     public Optional<Usuario> buscaPorId(Long id){ return usuarioRepository.findById(id);}
     public Optional<Usuario> buscaPorEmail(String email){ return usuarioRepository.findByEmail(email);}
     public List<Usuario> buscarTodosUsuarios(){ return usuarioRepository.findAll();}
     public List<Usuario> buscarTodosUsuariosFiltrados(List<Long> ids){ return usuarioRepository.findAllById(ids);}
 
-    public Optional<Usuario> criarUsuario(){} //todo implementar CREATED_AT
+    public Usuario criarUsuario(Usuario novoUsuario){
+        Optional<Usuario> userExist = usuarioRepository.findByEmail(novoUsuario.getEmail());
+        if (userExist.isPresent()){
+            throw new IllegalArgumentException("Usuário com este e-mail já existe!");
+        }
+
+        return usuarioRepository.save(novoUsuario);
+    }
 
     @Transactional
-    public Optional<Usuario> editarUsuario(){}
+    public Usuario editarUsuario(Long usuarioAntigo, Usuario usuarioAtualizado){
+        Usuario usuario = usuarioRepository.findById(usuarioAntigo).orElseThrow(
+                () -> new RuntimeException("Usuario do ID: "+ usuarioAntigo + " não encontrado")
+        );
+
+        usuario.setNome(
+                usuarioAtualizado.getNome().isEmpty() || usuarioAtualizado.getNome().equals(usuario.getNome()) ?
+                        usuario.getNome() : usuarioAtualizado.getNome()
+        );
+        usuario.setSenha(
+                usuarioAtualizado.getSenha().isEmpty() || usuarioAtualizado.getSenha().equals(usuario.getSenha()) ?
+                        usuario.getSenha() : usuarioAtualizado.getSenha()
+        );
+        usuario.setTipo(
+                usuarioAtualizado.getTipo().equals(usuario.getTipo()) ?
+                        usuario.getTipo() : usuarioAtualizado.getTipo()
+        );
+        usuario.setDataNascimento(
+                usuarioAtualizado.getDataNascimento().equals(usuario.getDataNascimento()) ?
+                        usuario.getDataNascimento() : usuarioAtualizado.getDataNascimento()
+        );
+
+        return usuarioRepository.save(usuario);
+    }
 
     public void deletarUsuario(Usuario usuario){ usuarioRepository.delete(usuario);}
     public void deletarUsuarioPorId(Long id){ usuarioRepository.deleteById(id);}
