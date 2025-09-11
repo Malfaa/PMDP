@@ -25,6 +25,7 @@ import java.time.*;
  */
 
 @Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TIPO_USUARIO")
@@ -44,7 +45,6 @@ public class Usuario {
     /**
      * O nome completo do usuário.
      */
-    @Setter
     private String nome;
 
     /**
@@ -63,7 +63,6 @@ public class Usuario {
      * Armazenada de forma segura (normalmente como um hash).
      * </p>
      */
-    @Setter
     private String senha;
 
     /**
@@ -82,7 +81,6 @@ public class Usuario {
      * Armazena apenas a data, sem a informação de tempo.
      * </p>
      */
-    @Setter
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
 
@@ -92,7 +90,6 @@ public class Usuario {
      * Indica o nível de acesso e permissões do usuário no sistema.
      * </p>
      */
-    @Setter
     private Perfil tipo;
 
     /**
@@ -116,4 +113,3 @@ public class Usuario {
     public Usuario(){}
 
 }
-//TODO createdAt quando é criado novo usuário.
