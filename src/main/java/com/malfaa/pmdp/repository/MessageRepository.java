@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.malfaa.pmdp.model.Message;
 
 @Repository
-public interface MenssageRepository extends JpaRepository<Message, Long> {
+public interface MessageRepository extends JpaRepository<Message, Long> {
     
 }
