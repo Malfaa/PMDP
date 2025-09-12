@@ -37,12 +37,12 @@ public class UsuarioService {
                 () -> new RuntimeException("Usuario do ID: "+ usuarioAntigo + " não encontrado")
         );
 
-        Optional.ofNullable(usuarioAtualizado.getNome()).ifPresent(usuario::setNome);
-        Optional.ofNullable(usuarioAtualizado.getSenha()).ifPresent(
-                senha -> usuario.setSenha(passwordEncoder.encode(senha))
+        Optional.ofNullable(userAtualizado.getName()).ifPresent(user::setName);
+        Optional.ofNullable(userAtualizado.getPassword()).ifPresent(
+                senha -> user.setPassword(passwordEncoder.encode(senha))
         );
-        Optional.ofNullable(usuarioAtualizado.getEmail()).ifPresent(usuario::setEmail);
-        Optional.ofNullable(usuarioAtualizado.getTipo()).ifPresent(usuario::setTipo);
+        Optional.ofNullable(userAtualizado.getEmail()).ifPresent(user::setEmail);
+        Optional.ofNullable(userAtualizado.getType()).ifPresent(user::setType);
         return usuarioRepository.save(user);
     }
 
