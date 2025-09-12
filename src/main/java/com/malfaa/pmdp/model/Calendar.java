@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-public class Calendario {
+public class Calendar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +25,8 @@ public class Calendario {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_id", nullable = false, unique = true)
-    private Mentor mentorAssociado;
+    private Mentor associateMentor;
 
-    @OneToMany(mappedBy = "calendario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Sessao> sessao = new HashSet<>();
+    @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Session> session = new HashSet<>();
 }

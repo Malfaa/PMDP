@@ -12,18 +12,18 @@ public class Feedback {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "comentario", columnDefinition = "TEXT")
-    private String comentario;
+    @Column(name = "comment", columnDefinition = "TEXT")
+    private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_id", nullable = false)
     private Mentor mentor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mentorado_id", nullable = false)
-    private Mentorado mentorado;
+    @JoinColumn(name = "mentee_id", nullable = false)
+    private Mentee mentee;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sessao_id", unique = true)
-    private Sessao sessao;
+    @JoinColumn(name = "session_id", unique = true)
+    private Session session;
 }

@@ -1,6 +1,6 @@
 package com.malfaa.pmdp.model.enums;
 
-public enum StatusPagamento {
+public enum PaymentStatus {
     Pendente,
     Confirmado,
     Recusado

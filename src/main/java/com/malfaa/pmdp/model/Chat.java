@@ -17,16 +17,16 @@ public class Chat {
     private Long id;
 
     @Column(columnDefinition = "TEXT")
-    private String titulo;
+    private String title;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "chat_participantes", joinColumns = @JoinColumn(name = "chat_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-    private Set<Usuario> participantes = new HashSet<>();
+    @JoinTable(name = "chat_participants", joinColumns = @JoinColumn(name = "chat_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> participants = new HashSet<>();
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Mensagem> mensagens = new HashSet<>();
+    private Set<Message> messages = new HashSet<>();
 
-    @Column(name = "data_criacao", nullable = false)
-    private LocalDateTime dataCriacao;
+    @Column(name = "creation_date", nullable = false)
+    private LocalDateTime creationDate;
 
 }

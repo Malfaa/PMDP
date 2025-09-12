@@ -1,21 +1,20 @@
 package com.malfaa.pmdp.repository;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.malfaa.pmdp.model.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.malfaa.pmdp.model.Calendario;
-import com.malfaa.pmdp.model.Categoria;
+import com.malfaa.pmdp.model.Calendar;
+import com.malfaa.pmdp.model.Category;
 import com.malfaa.pmdp.model.Mentor;
-import com.malfaa.pmdp.model.Sessao;
-import com.malfaa.pmdp.model.enums.Agendamento;
+import com.malfaa.pmdp.model.enums.Scheduling;
 
 @Repository
-public interface SessaoRepository extends JpaRepository<Sessao, Long> {
-    List<Sessao> findByMentor(Mentor mentor);
-    List<Sessao> findByCategoria(Categoria categoria);
-    List<Sessao> findByStatus(Agendamento status);
-    List<Sessao> findByDate(Calendario calendario);
+public interface SessaoRepository extends JpaRepository<Session, Long> {
+    List<Session> findByMentor(Mentor mentor);
+    List<Session> findByCategoria(Category category);
+    List<Session> findByStatus(Scheduling status);
+    List<Session> findByDate(Calendar calendar);
 }

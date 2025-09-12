@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @DiscriminatorValue("ADMIN")
-public class Administrador extends Usuario{
+public class Administrator extends User {
     @Column(nullable = false)
-    private Integer nivelAdm;
+    private Integer admLevel;
 }

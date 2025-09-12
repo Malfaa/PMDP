@@ -1,6 +1,6 @@
 package com.malfaa.pmdp.model;
 
-import com.malfaa.pmdp.model.enums.Agendamento;
+import com.malfaa.pmdp.model.enums.Scheduling;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,16 +12,16 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class Sessao {
+public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(columnDefinition = "TEXT")
-    private String titulo;
+    private String title;
 
-    @Column(name = "data_hora", nullable = false)
-    private LocalDateTime dataHora;
+    @Column(name = "date_time", nullable = false)
+    private LocalDateTime dateTime;
 
     /**
      * Define o status que está o agendamento da sessão
@@ -29,25 +29,25 @@ public class Sessao {
      */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Agendamento status;
+    private Scheduling status;
 
     @Column(precision = 10, scale = 2, nullable = false)
-    private BigDecimal preco;
+    private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mentorado_id")
-    private Mentorado mentorado;
+    @JoinColumn(name = "mentee_id")
+    private Mentee mentee;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_id", nullable = false)
     private Mentor mentor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id", nullable = false)
-    private Categoria categoria;
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "calendario_id")
-    private Calendario calendario;
+    @JoinColumn(name = "calendar_id")
+    private Calendar calendar;
 
 }

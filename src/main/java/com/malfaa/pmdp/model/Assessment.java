@@ -13,22 +13,22 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Avaliacao {
+public class Assessment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Integer nota;
+    private Integer grade;
 
     @Column(columnDefinition = "TEXT")
-    private String comentario;
+    private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mentorado_id", nullable = false)
-    private Mentorado mentorado;
+    @JoinColumn(name = "mentee_id", nullable = false)
+    private Mentee mentee;
 
     @OneToOne
-    @JoinColumn(name = "sessao_id", nullable = false, unique = true)
-    private Sessao sessao;
+    @JoinColumn(name = "session_id", nullable = false, unique = true)
+    private Session session;
 }

@@ -1,6 +1,6 @@
 package com.malfaa.pmdp.repository;
 
-import com.malfaa.pmdp.model.Categoria;
+import com.malfaa.pmdp.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,15 +19,15 @@ import java.util.Optional;
  */
 
 @Repository
-public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
+public interface CategoryRepository extends JpaRepository<Category, Long>{
      /**
       * Busca uma categoria pelo seu nome exato.
       * O Spring Data JPA implementará este método automaticamente baseado no nome.
       *
-      * @param nome O nome da categoria a ser buscada.
+      * @param name O nome da categoria a ser buscada.
       * @return um Optional contendo a Categoria encontrada, ou um Optional vazio se não encontrar.
       */
-    Optional<Categoria> findByNome(String nome);
+    Optional<Category> findByName(String name);
 
     
 }

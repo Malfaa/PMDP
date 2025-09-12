@@ -1,6 +1,5 @@
 package com.malfaa.pmdp.model;
 
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.malfaa.pmdp.model.enums.Perfil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -28,10 +27,10 @@ import java.time.*;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "TIPO_USUARIO")
+@DiscriminatorColumn(name = "USER_TYPE")
 @SQLDelete(sql = "UPDATE usuario SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @SQLRestriction("deletedAt IS NULL")
-public class Usuario {
+public class User {
     /**
      * O identificador único do usuário.
      * <p>
@@ -45,7 +44,7 @@ public class Usuario {
     /**
      * O nome completo do usuário.
      */
-    private String nome;
+    private String name;
 
     /**
      * O endereço de e-mail do usuário.
@@ -63,7 +62,7 @@ public class Usuario {
      * Armazenada de forma segura (normalmente como um hash).
      * </p>
      */
-    private String senha;
+    private String password;
 
     /**
      * O CPF (Cadastro de Pessoas Físicas) do usuário.
@@ -81,8 +80,8 @@ public class Usuario {
      * Armazena apenas a data, sem a informação de tempo.
      * </p>
      */
-    @Column(name = "data_nascimento")
-    private LocalDate dataNascimento;
+    @Column(name = "birthday")
+    private LocalDate birthday;
 
     /**
      * O tipo de perfil do usuário, definido por um enum.
@@ -90,7 +89,7 @@ public class Usuario {
      * Indica o nível de acesso e permissões do usuário no sistema.
      * </p>
      */
-    private Perfil tipo;
+    private Perfil type;
 
     /**
      * Registra quano que este usuário foi criado no banco.
@@ -110,6 +109,6 @@ public class Usuario {
      * Exigido pelo JPA para criar instâncias da entidade.
      * </p>
      */
-    public Usuario(){}
+    public User(){}
 
 }

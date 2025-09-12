@@ -17,14 +17,14 @@ import jakarta.persistence.*;
 @Entity
 @Setter
 @Getter
-public class Categoria {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(columnDefinition = "TEXT", nullable = false, unique = true)
-    private String nome;
+    private String name;
 
     @Column(columnDefinition = "TEXT")
-    private String descricao;
+    private String description;
 }

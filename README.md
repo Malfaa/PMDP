@@ -33,7 +33,7 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
   Avaliar sessões de mentoria com notas e comentários.  
 * RF06:   
   O sistema deve permitir os mentorados:  
-  Seção de apoio ao mentorado (chat com administração, e mentor para dúvidas).
+  Seção de apoio ao mentee (chat com administração, e mentor para dúvidas).
 
 ##### 3.2. Funcionalidades para Mentores
 
@@ -96,16 +96,16 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
 
 #### **5\. Regras de Negócio**
 
-* RN01: Um mentorado só pode agendar uma sessão com um mentor se houver disponibilidade no horário escolhido.  
+* RN01: Um mentee só pode agendar uma sessão com um mentor se houver disponibilidade no horário escolhido.  
 * RN02: Um mentor só pode criar sessões de mentoria após ser aprovado por um administrador.  
-* RN03: Um mentorado só pode avaliar uma sessão após sua conclusão.  
+* RN03: Um mentee só pode avaliar uma sessão após sua conclusão.  
 * RN04: Um administrador pode editar ou excluir qualquer sessão, mas deve notificar o mentor responsável.
 
 ---
 
 #### **6\. Casos de Uso (Resumidos)**
 
-1. Cadastro de Usuário: Mentor, mentorado ou administrador se cadastrar na plataforma.  
+1. Cadastro de Usuário: Mentor, mentee ou administrador se cadastrar na plataforma.  
 2. Agendamento de Sessão: Mentorado busca um mentor e agenda uma sessão.  
 3. Criação de Sessão: Mentor cria uma nova sessão de mentoria.  
 4. Avaliação de Sessão: Mentorado avalia uma sessão concluída.  
@@ -120,12 +120,12 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
 ## **Definição de Atores e Funcionalidades:**
 
 1. **Mentorado**: Quem busca orientação e desenvolvimento profissional.  
-   1. O mentorado  busca um mentor na barra de pesquisa.  
-   2. O mentorado inicia um solicitação de agendamento de  mentoria  
-   3. O mentorado solicita o cancelamento da  mentoria  
-   4. O mentorado gera solicitação de pagamento para acessar a mentoria  
-   5. O mentorado  após pagamento acessa todos os  conteúdo/ materiais de apoio  
-   6. O mentorado tem uma seção de avaliação dos mentores e da instituição  
+   1. O mentee  busca um mentor na barra de pesquisa.  
+   2. O mentee inicia um solicitação de agendamento de  mentoria  
+   3. O mentee solicita o cancelamento da  mentoria  
+   4. O mentee gera solicitação de pagamento para acessar a mentoria  
+   5. O mentee  após pagamento acessa todos os  conteúdo/ materiais de apoio  
+   6. O mentee tem uma seção de avaliação dos mentores e da instituição  
 2. **Mentor:** Profissional experiente.  
    1. O mentor recebe a solicitação de mentoria e confirmar agendamento de sessões  
    2. O mentor pode cancelar sessões de mentoria  
@@ -153,7 +153,7 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
 **UC01: Cadastrar Usuário**
 
 * **Atores:** Todos (Mentor, Mentorado, Administrador).  
-* **Descrição:** O usuário cria um novo perfil na plataforma, informando tipo de usuário (mentor ou mentorado), nome completo, e-mail, data de nascimento e CPF. Para os mentores, serão solicitadas informações adicionais, relacionadas à sua formação e área de atuação, para que essas constem em seu perfil. Na hora de efetuar o login vai verificar o Cadastro no sistema ou com as redes sociais. Na hora de efetuar a verificação pode aparecer um erro de login.  
+* **Descrição:** O usuário cria um novo perfil na plataforma, informando tipo de usuário (mentor ou mentee), nome completo, e-mail, data de nascimento e CPF. Para os mentores, serão solicitadas informações adicionais, relacionadas à sua formação e área de atuação, para que essas constem em seu perfil. Na hora de efetuar o login vai verificar o Cadastro no sistema ou com as redes sociais. Na hora de efetuar a verificação pode aparecer um erro de login.  
 * **Pré-condições:**  
   * O usuário não pode estar logado.  
   * O sistema deve estar disponível.  
@@ -226,30 +226,30 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
 **7.3. UC03: Buscar Mentor**
 
 * **Atores:** Mentorado.  
-* **Descrição:** Pela barra de pesquisa, o mentorado poderá realizar buscas por nome, área de atuação ou curso. Pode aparecer um erro de pesquisa (mentor, aula, sessão) não encontrado.  
+* **Descrição:** Pela barra de pesquisa, o mentee poderá realizar buscas por nome, área de atuação ou curso. Pode aparecer um erro de pesquisa (mentor, aula, sessão) não encontrado.  
 * **Pré-condições:**  
-  * O mentorado deve estar autenticado (com token válido).  
+  * O mentee deve estar autenticado (com token válido).  
   * Deve haver mentores cadastrados no sistema.  
 * **Fluxo Principal:**
 
-  * O mentorado acessa a página de busca de mentores.  
+  * O mentee acessa a página de busca de mentores.  
   * O sistema exibe uma barra de pesquisa.  
-  * O mentorado insere um critério de busca (ex.: "Java", "Marketing Digital").  
+  * O mentee insere um critério de busca (ex.: "Java", "Marketing Digital").  
   * O sistema valida o termo e busca no banco de dados mentores que correspondam.  
   * Se houver resultados:
 
     * O sistema exibe uma lista paginada com: Foto, nome, área de atuação, avaliação e botão "Ver perfil".  
-    * O mentorado pode clicar em um mentor para ver detalhes ou aplicar novos filtros.  
-  * O mentorado seleciona um mentor para agendar uma mentoria.  
+    * O mentee pode clicar em um mentor para ver detalhes ou aplicar novos filtros.  
+  * O mentee seleciona um mentor para agendar uma mentoria.  
 * **Fluxos Alternativos:**
 
   * **FA1: Nenhum mentor encontrado:** No passo 4, se a busca não retornou resultados, o sistema exibe mensagem de que não foi encontrado o mentor e sugere mentores populares ou categorias semelhantes.  
-  * **FA2: Busca vazia (sem critério):** Se o mentorado enviar a busca sem preencher nenhum campo, o sistema exibe mentores em destaque (mais bem avaliados).  
+  * **FA2: Busca vazia (sem critério):** Se o mentee enviar a busca sem preencher nenhum campo, o sistema exibe mentores em destaque (mais bem avaliados).  
   * **FA3: Erro na pesquisa (sistema indisponível):** Se houver falha no servidor ou banco de dados, o sistema exibe mensagem de erro ao realizar a busca.  
-  * **FA4: Filtros avançados aplicados:** O mentorado pode refinar a busca com: Disponibilidade (horário), Avaliação mínima (ex.: 4+ estrelas), Preço máximo.  
+  * **FA4: Filtros avançados aplicados:** O mentee pode refinar a busca com: Disponibilidade (horário), Avaliação mínima (ex.: 4+ estrelas), Preço máximo.  
 * **Pós-condições:**
 
-  * O mentorado visualiza mentores que atendem aos critérios.  
+  * O mentee visualiza mentores que atendem aos critérios.  
 * **Regras de Negócio Específicas:**
 
   * Ordenação padrão: mentores melhor avaliados aparecem primeiro.  
@@ -258,38 +258,38 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
 **7.4. UC04: Agendar Sessão**
 
 * **Atores:** Mentorados.  
-* **Descrição:** Na página do mentor, o mentorado poderá escolher a data e hora da próxima sessão. O agendamento será confirmado mediante pagamento do valor correspondente. Após a verificação se o pagamento estiver ok, segue o agendamento se não, erro de pagamento.  
+* **Descrição:** Na página do mentor, o mentee poderá escolher a data e hora da próxima sessão. O agendamento será confirmado mediante pagamento do valor correspondente. Após a verificação se o pagamento estiver ok, segue o agendamento se não, erro de pagamento.  
 * **Pré-condições:**
 
-  * O mentorado deve estar autenticado.  
+  * O mentee deve estar autenticado.  
   * O mentor deve ter horários disponíveis cadastrados.  
-  * O mentorado deve ter um método de pagamento válido cadastrado ou deve inserir no momento.  
+  * O mentee deve ter um método de pagamento válido cadastrado ou deve inserir no momento.  
 * **Fluxo Principal:**
 
-  * O mentorado acessa o perfil do mentor e clica em "Agendar Sessão".  
+  * O mentee acessa o perfil do mentor e clica em "Agendar Sessão".  
   * O sistema exibe: Um calendário com os horários disponíveis do mentor, A duração padrão da sessão, O valor da sessão e opções de pagamento.  
-  * O mentorado seleciona uma data e horário disponíveis.  
+  * O mentee seleciona uma data e horário disponíveis.  
   * O sistema exibe um resumo de agendamento (mentor, data, hora e valor).  
-  * O mentorado escolhe a forma de pagamento (cartão, PIX, etc.) e confirma.  
+  * O mentee escolhe a forma de pagamento (cartão, PIX, etc.) e confirma.  
   * O sistema processa o pagamento:
 
-    * Se o pagamento for aprovado: registra a sessão no banco de dados, envia um e-mail de confirmação para o mentor e o mentorado, exibe mensagem de que o agendamento foi confirmado.  
-  * O mentorado é redirecionado para a página de sessões agendadas.  
+    * Se o pagamento for aprovado: registra a sessão no banco de dados, envia um e-mail de confirmação para o mentor e o mentee, exibe mensagem de que o agendamento foi confirmado.  
+  * O mentee é redirecionado para a página de sessões agendadas.  
 * **Fluxos Alternativos:**
 
   * **FA1: Pagamento recusado:** No passo 6, se o pagamento falhar, exibe mensagem de que não foi aprovado e permite tentar novamente ou cancelar o agendamento.  
   * **FA2: Horário indisponível (conflito de última hora):** Se outro usuário agendar o mesmo horário antes da confirmação, o sistema atualiza o calendário e exibe mensagem para escolher outro horário.  
-  * **FA3: Remarcação ou cancelamento:** Se o mentorado quiser cancelar/reagendar, o sistema verifica a política de cancelamento (ex.: reembolso em até 24 horas), remove o agendamento e libera o horário.  
-  * **FA4: Método de pagamento não cadastrado:** Se o mentorado não tiver um cartão/PIX salvo, o sistema solicita cadastro de um novo método antes de prosseguir.  
+  * **FA3: Remarcação ou cancelamento:** Se o mentee quiser cancelar/reagendar, o sistema verifica a política de cancelamento (ex.: reembolso em até 24 horas), remove o agendamento e libera o horário.  
+  * **FA4: Método de pagamento não cadastrado:** Se o mentee não tiver um cartão/PIX salvo, o sistema solicita cadastro de um novo método antes de prosseguir.  
 * **Pós-condições:**
 
-  * A sessão é registrada no calendário do mentor e do mentorado.  
+  * A sessão é registrada no calendário do mentor e do mentee.  
   * O mentor recebe uma notificação (e-mail / app) sobre o novo agendamento.  
   * O sistema bloqueia o horário para outros agendamentos.  
 * **Regras de Negócio Específicas:**
 
   * O agendamento não é concluído enquanto o pagamento não for confirmado.  
-  * O mentorado tem uma tolerância de x minutos (tolerância editável) após o horário marcado.  
+  * O mentee tem uma tolerância de x minutos (tolerância editável) após o horário marcado.  
   * Cancelamentos em até 24h geram reembolso integral.
 
 **7.5. UC05: Criar Sessão**
@@ -326,26 +326,26 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
 * **Descrição:** Os mentorados poderão deixar sua avaliação pública das sessões de mentoria na página do mentor.  
 * **Pré-condições:**
 
-  * O mentorado deve ter participado de pelo menos uma sessão com o mentor.  
+  * O mentee deve ter participado de pelo menos uma sessão com o mentor.  
   * A sessão já deve ter sido realizada.  
-  * O mentorado deve estar autenticado.  
+  * O mentee deve estar autenticado.  
 * **Fluxo Principal:**
 
-  * O mentorado acessa a página de “Minhas sessões” e seleciona a sessão que já foi concluída.  
+  * O mentee acessa a página de “Minhas sessões” e seleciona a sessão que já foi concluída.  
   * O sistema exibe um formulário de avaliação: Nota utilizando estrelas (1 a 5\) e Campo de comentário.  
-  * O mentorado preenche a nota e, caso queira, há a possibilidade de escrever um comentário.  
-  * O mentorado clica em “Enviar Avaliação”.  
-  * Se estiver tudo correto: A avaliação é publicada no perfil do mentor; O sistema atualiza a média de avaliações do mentor; Uma mensagem de avaliação enviada com sucesso é exibida ao mentorado.  
+  * O mentee preenche a nota e, caso queira, há a possibilidade de escrever um comentário.  
+  * O mentee clica em “Enviar Avaliação”.  
+  * Se estiver tudo correto: A avaliação é publicada no perfil do mentor; O sistema atualiza a média de avaliações do mentor; Uma mensagem de avaliação enviada com sucesso é exibida ao mentee.  
 * **Fluxos Alternativos:**
 
-  * **FA1: Sessão já avaliada:** Se o mentorado estiver tentando avaliar uma sessão que já foi previamente avaliada, o sistema exibe mensagem de que já foi avaliado.  
-  * **FA2: Avaliação sem nota:** Se o mentorado estiver tentando enviar uma avaliação sem nota, o sistema exibe uma mensagem dizendo que deve ser feita a avaliação para estar válido.  
+  * **FA1: Sessão já avaliada:** Se o mentee estiver tentando avaliar uma sessão que já foi previamente avaliada, o sistema exibe mensagem de que já foi avaliado.  
+  * **FA2: Avaliação sem nota:** Se o mentee estiver tentando enviar uma avaliação sem nota, o sistema exibe uma mensagem dizendo que deve ser feita a avaliação para estar válido.  
   * **FA3: Comentário inadequado:** (Esta parte está incompleta no documento original. Sugestão: O sistema pode ter um filtro de conteúdo ou permitir denúncias, e se o comentário for inadequado, pode ser barrado ou sinalizado para revisão.)
 
 **7.7. UC07: Fornecer Feedback (Mentor para Mentorado)**
 
 * **Atores:** Mentor.  
-* **Descrição:** O mentor fornece feedback ao mentorado sobre seu progresso e desempenho na sessão.  
+* **Descrição:** O mentor fornece feedback ao mentee sobre seu progresso e desempenho na sessão.  
 * **Pré-condições:**  
   * A sessão deve ter sido concluída.  
   * O mentor deve estar autenticado.  
@@ -356,14 +356,14 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
   * O mentor preenche um formulário: Progresso Geral, Pontos Fortes, Sugestões de melhorias.  
   * O mentor clica em “Enviar”.  
   * O sistema valida se o feedback já foi enviado para aquela sessão.  
-  * Se tudo estiver correto: O mentorado recebe uma notificação com o feedback; O feedback é salvo à sessão; O sistema exibe mensagem de que foi enviado o feedback.  
+  * Se tudo estiver correto: O mentee recebe uma notificação com o feedback; O feedback é salvo à sessão; O sistema exibe mensagem de que foi enviado o feedback.  
 * **Fluxos Alternativos:**
 
   * **FA1: Feedback já enviado:** Se o mentor tentar enviar um outro feedback, o sistema exibe mensagem de que já foi enviado um feedback.  
   * **FA2: Campos obrigatórios vazios:** Se o mentor não preencher os campos obrigatórios, exibe mensagem de que deve ser preenchido.  
   * **FA3: Editar Feedback:** O mentor pode editar o feedback.  
 * **Pós-condições:**  
-  * O feedback fica disponível na página do mentorado.
+  * O feedback fica disponível na página do mentee.
 
 **7.8. UC08: Gerenciar Usuários (Administrador)**
 
@@ -411,22 +411,22 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
   * O sistema exibe uma lista de categorias existentes.  
   * **Cenário 1: Criar Nova Categoria:**  
     * O Administrador clica em "Criar Nova Categoria".  
-    * O sistema exibe um formulário com campos: Nome da categoria, Ícone (opcional), Descrição.  
+    * O sistema exibe um formulário com campos: Nome da category, Ícone (opcional), Descrição.  
     * O administrador preenche os dados e clica em “Salvar”.  
     * O sistema: Valida se o nome já não existe; Registra a ação em um log.  
   * **Cenário 2: Editar Categoria Existente:**
 
-    * O administrador seleciona uma categoria na lista e clica em “Editar”.  
+    * O administrador seleciona uma category na lista e clica em “Editar”.  
     * Altera os campos necessários, como exemplo a descrição.  
     * O sistema valida as alterações.  
   * **Cenário 3: Excluir Categoria:**
 
-    * O administrador seleciona “Excluir” em uma categoria.  
-    * O sistema verifica se há sessões ativas: Se não houver, a categoria é removida; Se houver, é realocado para outra categoria antes da exclusão.  
+    * O administrador seleciona “Excluir” em uma category.  
+    * O sistema verifica se há sessões ativas: Se não houver, a category é removida; Se houver, é realocado para outra category antes da exclusão.  
 * **Fluxos Alternativos:**
 
-  * **FA1: Nome da categoria existente:** Se o administrador tentar criar/editar uma categoria com nome que já existe, exibe mensagem dizendo que este nome já está em uso.  
-  * **FA2: Exclusão com sessões ativas:** Se houver sessões na categoria a ser excluída, o sistema lista categorias alternativas, obrigando uma escolha para migrar.  
+  * **FA1: Nome da category existente:** Se o administrador tentar criar/editar uma category com nome que já existe, exibe mensagem dizendo que este nome já está em uso.  
+  * **FA2: Exclusão com sessões ativas:** Se houver sessões na category a ser excluída, o sistema lista categorias alternativas, obrigando uma escolha para migrar.  
   * **FA3: Erro de processamento:** (Incompleto no original. Sugestão: Se houver um erro de sistema ao tentar criar/editar/excluir, o sistema exibe uma mensagem de erro genérica e registra no log).  
 * **Pós-condições:**  
   * A lista de categorias de mentoria é atualizada.  
@@ -458,22 +458,22 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
 **7.11. UC11: Visualizar Progresso (Mentorado)**
 
 * **Atores:** Mentorado.  
-* **Descrição:** O mentorado acompanha seu progresso nas sessões de mentoria, visualizando feedback recebido, sessões concluídas e metas alcançadas.  
+* **Descrição:** O mentee acompanha seu progresso nas sessões de mentoria, visualizando feedback recebido, sessões concluídas e metas alcançadas.  
 * **Pré-condições:**  
-  * O mentorado deve estar autenticado.  
+  * O mentee deve estar autenticado.  
   * Deve ter participado de sessões de mentoria.  
 * **Fluxo Principal:**  
-  * O mentorado acessa a seção "Meu Progresso".  
+  * O mentee acessa a seção "Meu Progresso".  
   * O sistema exibe um dashboard com:  
     * Sessões concluídas (com links para feedbacks).  
     * Metas definidas (se aplicável).  
     * Gráficos ou indicadores de progresso geral.  
     * Materiais de apoio relacionados.  
-  * O mentorado pode navegar pelos detalhes das sessões e feedbacks.  
+  * O mentee pode navegar pelos detalhes das sessões e feedbacks.  
 * **Fluxos Alternativos:**  
   * **FA1: Sem sessões concluídas:** O sistema exibe mensagem informando que não há progresso para exibir e sugere agendar sessões.  
 * **Pós-condições:**  
-  * O mentorado tem uma visão clara de seu desenvolvimento.
+  * O mentee tem uma visão clara de seu desenvolvimento.
 
 **7.12. UC12: Visualizar Relatórios (Administrador)**
 
@@ -485,7 +485,7 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
 * **Fluxo Principal:**  
   * O administrador acessa a seção "Relatórios".  
   * O sistema exibe uma lista de relatórios disponíveis (ex: Relatório de Atividade, Relatório de Avaliações, Relatório de Usuários).  
-  * O administrador seleciona um tipo de relatório e, opcionalmente, filtros (período, categoria).  
+  * O administrador seleciona um tipo de relatório e, opcionalmente, filtros (período, category).  
   * O sistema processa os dados e exibe o relatório (tabelas, gráficos).  
   * O administrador pode exportar o relatório (ex: PDF, CSV).  
 * **Fluxos Alternativos:**  
@@ -497,12 +497,12 @@ Por meio da plataforma, os mentorados devem ter a opção de buscar profissionai
 **7.13. UC13: Gerenciar Comunicação/Chat (Administrador, Mentor, Mentorado)**
 
 * **Atores:** Administrador, Mentor, Mentorado.  
-* **Descrição:** Os usuários (mentorados, mentores) podem se comunicar via chat com a administração ou entre si (mentor/mentorado), e o administrador gerencia essas conversas.  
+* **Descrição:** Os usuários (mentorados, mentores) podem se comunicar via chat com a administração ou entre si (mentor/mentee), e o administrador gerencia essas conversas.  
 * **Pré-condições:**  
   * Usuário autenticado.  
-  * Chat ativo (se aplicável, para conversas mentor-mentorado).  
+  * Chat ativo (se aplicável, para conversas mentor-mentee).  
 * **Fluxo Principal (Enviar Mensagem):**  
-  * O usuário (mentor, mentorado, administrador) acessa a seção de chat.  
+  * O usuário (mentor, mentee, administrador) acessa a seção de chat.  
   * O usuário seleciona uma conversa existente ou inicia uma nova (com administrador, mentor específico, etc.).  
   * O sistema exibe o histórico da conversa.  
   * O usuário digita a mensagem e clica em "Enviar".  
@@ -533,10 +533,10 @@ A partir dos requisitos funcionais e dos casos de uso, as classes principais ide
 | `Mentor` | Concreta | Usuário que oferece sessões de mentoria |
 | `Mentorado` | Concreta | Usuário que busca sessões de mentoria |
 | `Administrador` | Concreta | Usuário responsável pela gestão da plataforma |
-| `Sessao` | Concreta | Sessões de mentoria agendadas entre mentor e mentorado |
+| `Sessao` | Concreta | Sessões de mentoria agendadas entre mentor e mentee |
 | `Pagamento` | Concreta | Registro de pagamentos e seus estados |
-| `Feedback` | Concreta | Comentários privados feitos pelo mentor ao mentorado |
-| `Avaliacao` | Concreta | Avaliação pública feita pelo mentorado após a sessão |
+| `Feedback` | Concreta | Comentários privados feitos pelo mentor ao mentee |
+| `Avaliacao` | Concreta | Avaliação pública feita pelo mentee após a sessão |
 | `MaterialApoio` | Concreta | Materiais compartilhados durante ou após a mentoria |
 | `Categoria` | Concreta | Área de atuação da mentoria (Ex: Carreira, Marketing, TI...) |
 | `Relatorio` | DTO | Consolidado de informações para administração |
@@ -547,7 +547,7 @@ A partir dos requisitos funcionais e dos casos de uso, as classes principais ide
 | `SessaoController` | Utilitária/ Controle | Responsável por receber as requisições do usuário e orquestrar o caso de uso. |
 | `RelatorioService` | Utilitária/Serviço | Responsável por coletar e compilar dados para gerar relatórios. |
 | `AdminController` | Utilitária/ Controle | Responsável por gerenciar e orquestrar todos os casos de uso iniciados pelo Administrador |
-| `Chat` | Concreta | Comunicação entre mentorado, mentor e admin |
+| `Chat` | Concreta | Comunicação entre mentee, mentor e admin |
 | `Mensagem` | Concreta | Representa uma única mensagem enviada dentro de uma conversa. |
 | `ChatService` | Utilitária/ Serviço | Serviço responsável por orquestrar a lógica de negócio do chat, como o envio de mensagens e busca de histórico |
 | `ChatController` | Utilitária/ Controle | Controlador que recebe as requisições do usuário para a funcionalidade de chat e as delega para o `ChatService`. |
@@ -616,40 +616,40 @@ A partir dos requisitos funcionais e dos casos de uso, as classes principais ide
 |  | tipo | Enum | \[Mentor, Mentorado, Administrador\] |
 | **Mentor** | categorias | List\<Categoria\> | Área(s) de atuação |
 |  | descricaoPerfil | String | Descrição resumida do mentor |
-|  | calendario | Calendario | Objeto que gerencia a agenda e disponibilidade do mentor. |
-| **Mentorado** | progresso | String | Progresso do usuário mentorado |
-|  | interesses | List\<String\> | Interesses ou objetivos do mentorado |
+|  | calendar | Calendario | Objeto que gerencia a agenda e disponibilidade do mentor. |
+| **Mentorado** | progresso | String | Progresso do usuário mentee |
+|  | interesses | List\<String\> | Interesses ou objetivos do mentee |
 | **Administrador** | nivelAdm | Integer | Nível de acesso do administrador |
 | **Sessao** | id | Integer | Identificador da sessão |
 |  | titulo | String | Nome da sessão |
 |  | dataHora | DateTime | Data e hora da sessão |
 |  | status | Enum | \[Agendada, Concluída, Cancelada\] |
 |  | preco | Double | Valor da sessão |
-|  | mentorado | Mentorado | Identifica quem agendou a sessão. |
-|  | categoria | Categoria | Cada sessão pertence a uma categoria |
+|  | mentee | Mentorado | Identifica quem agendou a sessão. |
+|  | category | Categoria | Cada sessão pertence a uma category |
 |  | mentor | Mentor | Referência ao Mentor que oferece a sessão. |
 | **Pagamento** | id | Integer | ID do pagamento |
 |  | status | Enum | \[Pendente, Confirmado, Recusado\] |
 |  | metodo | String | Meio de pagamento (Cartão, Pix...) |
 |  | valor | Double | O valor da transação. |
-|  | sessao | Sessao | Identifica qual sessão o pagamento se refere. |
-|  | mentorado | Mentorado | Identifica quem efetuou o pagamento. |
+|  | session | Sessao | Identifica qual sessão o pagamento se refere. |
+|  | mentee | Mentorado | Identifica quem efetuou o pagamento. |
 | **Avaliacao** | nota | Integer | Nota de 1 a 5 |
 |  | comentario | String | Comentário opcional |
-|  | mentorado | Mentorado | Identifica o autor da avaliação. |
-|  | sessao | Sessao | Identifica qual sessão está sendo avaliada. |
+|  | mentee | Mentorado | Identifica o autor da avaliação. |
+|  | session | Sessao | Identifica qual sessão está sendo avaliada. |
 | **Feedback** | id | Integer | Identificador único |
 |  | comentario | String | Comentário privado do mentor |
 |  | mentor | Mentor | Quem está dando o feedback. |
-|  | mentorado | Mentorado | Quem está recebendo o feedback. |
-|  | sessao | Sessao | Identifica de qual sessão a avaliação pertence. |
+|  | mentee | Mentorado | Quem está recebendo o feedback. |
+|  | session | Sessao | Identifica de qual sessão a avaliação pertence. |
 | **MaterialApoio** | id | Integer | Identificador único |
 |  | descricao | String | Descrição do material |
 |  | linkArquivo | String | Link para arquivo na nuvem |
 |  | mentor | Mentor | Identifica quem disponibilizou o material. |
 | **Categoria** | id | Integer | Identificador único |
-|  | nome | String | Nome da categoria |
-|  | descricao | String | Descrição da categoria |
+|  | nome | String | Nome da category |
+|  | descricao | String | Descrição da category |
 | **Relatorio**  | totalSessoes | Integer | Quantidade de sessões na plataforma |
 |  | mediaAvaliacoes | Double | Média geral das avaliações |
 |  | totalMentoresAtivos | Integer | O número de mentores com perfis ativos no sistema. |
@@ -693,19 +693,19 @@ A partir dos requisitos funcionais e dos casos de uso, as classes principais ide
 | Mentor | public List\<DateTime\> getHorariosDisponiveis(); public List\<Sessao\> getMinhasSessoes(); public List\<Avaliacao\> getAvaliacoesRecebidas(); public void editarPerfilMentor(List\<Categoria\> areaEspecializacao, String descricaoPerfil); public static Mentor buscarPorId(int idMentor); public static List\<Mentor\> buscarPorCriterio(String criterio);	 |
 | Mentorado | public List\<Sessao\> getMinhasSessoes(); public List\<Pagamento\> getHistoricoDePagamentos(); public static Mentorado buscarPorId(int id); public static Mentorado buscarPorEmail(String email); |
 | Administrador | public void alterarNivelDeAcesso(int novoNivel); public static Administrador buscarPorId(int id); public static List\<Administrador\> buscarTodos(); |
-| Sessao | public static Sessao criar(String titulo,DateTime dataHora, Double preco, Mentor mentor); public static Sessao buscarPorId(int idSessao); public static List\<Sessao\> buscarPorMentorado(Mentorado mentorado); public boolean agendarSessao(Mentorado mentorado); public boolean cancelar(); public void concluir(); public void editar(Map\<String, Object\> novosDados); public boolean estaDisponivel(); private static boolean verificaDisponibilidadeHorario(Mentor mentor, DateTime date); private void salvar(); |
-| Pagamento | public static Pagamento criar(double valor, String metodo, PagStatus status, Mentorado mentorado, Sessao sessao); public static Pagamento buscarPorId(int idPagamento); public static List\<Pagamento\> buscarPorMentorado(Mentorado mentorado); public static Pagamento buscarPorSessao(Sessao sessao); public boolean estornar(); public PagStatus getStatus(); |
+| Sessao | public static Sessao criar(String titulo,DateTime dataHora, Double preco, Mentor mentor); public static Sessao buscarPorId(int idSessao); public static List\<Sessao\> buscarPorMentorado(Mentorado mentee); public boolean agendarSessao(Mentorado mentee); public boolean cancelar(); public void concluir(); public void editar(Map\<String, Object\> novosDados); public boolean estaDisponivel(); private static boolean verificaDisponibilidadeHorario(Mentor mentor, DateTime date); private void salvar(); |
+| Pagamento | public static Pagamento criar(double valor, String metodo, PagStatus status, Mentorado mentee, Sessao session); public static Pagamento buscarPorId(int idPagamento); public static List\<Pagamento\> buscarPorMentorado(Mentorado mentee); public static Pagamento buscarPorSessao(Sessao session); public boolean estornar(); public PagStatus getStatus(); |
 | Calendario | public List\<DateTime\> consultarDisponibilidade(); public boolean isHorarioLivre(DateTime dataHora); |
-| Feedback | public static Feedback criar(String texto, Mentor mentor, Mentorado mentorado, Sessao sessao); public static Feedback buscarPorSessao(Sessao sessao); public void editarTexto(String novoTexto); |
-| Avaliacao | public static Avaliacao criar(int nota, String comentario, Mentorado mentorado, Sessao sessao); public static List\<Avaliacao\> buscarPorMentor(Mentor mentor); public void editarComentario(String novoComentario); |
-| MaterialApoio | public static MaterialApoio criar(String descricao, String linkArquivo, Mentor mentor, Sessao sessao); public static MaterialApoio buscarPorId(int idMaterial); public static List\<MaterialApoio\> buscarPorMentor(Mentor mentor); public static List\<MaterialApoio\> buscarPorSessao(Sessao sessao); public void editar(String novaDescricao, String novoLink); public void excluir(); private void salvar(); |
+| Feedback | public static Feedback criar(String texto, Mentor mentor, Mentorado mentee, Sessao session); public static Feedback buscarPorSessao(Sessao session); public void editarTexto(String novoTexto); |
+| Avaliacao | public static Avaliacao criar(int nota, String comentario, Mentorado mentee, Sessao session); public static List\<Avaliacao\> buscarPorMentor(Mentor mentor); public void editarComentario(String novoComentario); |
+| MaterialApoio | public static MaterialApoio criar(String descricao, String linkArquivo, Mentor mentor, Sessao session); public static MaterialApoio buscarPorId(int idMaterial); public static List\<MaterialApoio\> buscarPorMentor(Mentor mentor); public static List\<MaterialApoio\> buscarPorSessao(Sessao session); public void editar(String novaDescricao, String novoLink); public void excluir(); private void salvar(); |
 | Categoria | public static Categoria criar(String nome, String descricao); public static Categoria buscarPorId(int idCategoria); public static Categoria buscarPorNome(String nome); public static List\<Categoria\> buscarTodas(); public void editar(String novoNome, String novaDescricao); public boolean excluir(); private void salvar(); |
-| Chat | public static Chat criar(List\<Usuario\> participantes, String titulo); public static List\<Chat\> buscarPorUsuario(Usuario usuario); public static Chat buscarPorId(int idChat); |
+| Chat | public static Chat criar(List\<Usuario\> participantes, String titulo); public static List\<Chat\> buscarPorUsuario(Usuario user); public static Chat buscarPorId(int idChat); |
 | Mensagem | public static Mensagem criar(String texto, Usuario autor, Chat chat); public static List\<Mensagem\> buscarPorUltimaMensagem(Chat chat, int limite);  |
 | AdminController | public Usuario criarUsuario(Map\<String, String\> dadosUsuario); public void editarUsuario(int idUsuario, Map\<String, Object\> dadosAtualizar); public void excluirUsuario(int idUsuario); public void aprovarSessao(int idSessao); public void excluirSessao(int idSessao); public Categoria criarCategoria(String nome, String descricao); public void excluirCategoria(int idCategoria); public Relatorio gerarRelatorioPlataforma(); |
 | SessaoController | public void processarCriacaoSessao(String titulo, DateTime dataHora, double preco, int idMentor); public void processarAgendamento(int idSessao, int idMentorado, Map\<String, Object\> dadosPagamento); public void processarAvaliacao(int idMentorado, int idSessao, int nota, String comentario); public void processarFeedback(int idMentor, int idSessao, String texto); public void processarCancelamento(int idSessao, int idUsuarioLogado); |
 | ChatController | public void enviarMensagem(int idAutor, int idChat, String texto); public ChatPageDTO carregarChat(int idChat); |
-| NotificacaoService | public void enviarConfirmacaoAgendamento(Mentorado mentorado, Mentor   mentor, Sessao sessao); public void enviarLinkResetDeSenha(Usuario usuario, String tokenDeReset); public void notificarNovoFeedback(Feedback feedback); public boolean enviarEmail(enum canal, String destinatario,  String assunto, String corpoMensagem); |
+| NotificacaoService | public void enviarConfirmacaoAgendamento(Mentorado mentee, Mentor   mentor, Sessao session); public void enviarLinkResetDeSenha(Usuario user, String tokenDeReset); public void notificarNovoFeedback(Feedback feedback); public boolean enviarEmail(enum canal, String destinatario,  String assunto, String corpoMensagem); |
 | PagamentoService | public boolean processarPagamento(double valor, Map\<String, Object\> dadosPagamento); public boolean estornarPagamento(String idTransacaoExterna, String motivo); public String consultarStatusPagamento(String idTransaçaoExterna); |
 | AutenticacaoService | public String autenticar(String email, String senha); public Usuario registrarNovoUsuario(Map\<String, Object\> dadosUsuario); public void logout(String token); public void solicitarResetSenha(String email); public boolean resetarSenha(String tokenReset, String novaSenha); |
 | RelatorioService | public Relatorio gerarRelatorioDeAtividade(); |

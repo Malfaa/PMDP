@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.malfaa.pmdp.model.Categoria;
+import com.malfaa.pmdp.model.Category;
 import com.malfaa.pmdp.model.Mentor;
 import com.malfaa.pmdp.repository.MentorRepository;
 
@@ -23,15 +23,15 @@ public class MentorService {
 
     public List<Mentor> buscaPorFormacaoAcademica(String formacao){
         //todo adicionar algum tipo de filtro, mesmo que escreve pela metade ou algo do tipo
-        return mentorRepository.findByFormacaoAcademica(formacao);
+        return mentorRepository.findByAcademicFormation(formacao);
     }
 
     public List<Mentor> buscaPorExperienciaProfissional(String experiencia){
-        return mentorRepository.findByExperienciaProfissional(experiencia);
+        return mentorRepository.findByProfessionalExperience(experiencia);
     }
 
-    public List<Mentor> buscaPorCategoria(Categoria categoria){
-        return mentorRepository.findByCategorias(categoria);
+    public List<Mentor> buscaPorCategoria(Category categoria){
+        return mentorRepository.findByCategories(categoria);
     }
 
     public List<Mentor> buscaPorTodos(){

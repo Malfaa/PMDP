@@ -3,18 +3,18 @@ package com.malfaa.pmdp.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.malfaa.pmdp.model.Category;
 import org.springframework.stereotype.Service;
 
-import com.malfaa.pmdp.model.Categoria;
-import com.malfaa.pmdp.repository.CategoriaRepository;
+import com.malfaa.pmdp.repository.CategoryRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 public class CategoriaService {
-    private final CategoriaRepository repository;
+    private final CategoryRepository repository;
 
-    public CategoriaService(CategoriaRepository repository){
+    public CategoriaService(CategoryRepository repository){
         this.repository = repository;
     }
 
@@ -24,7 +24,7 @@ public class CategoriaService {
      * @param id
      * @return
      */
-    public Optional<Categoria> buscarCategoria(Long id){return repository.findById(id);}
+    public Optional<Category> buscarCategoria(Long id){return repository.findById(id);}
 
     /**
      * Função que busca uma categoria dentro do banco de dados utilizando o nome.
@@ -32,37 +32,37 @@ public class CategoriaService {
      * @param nome
      * @return
      */
-    public Optional<Categoria> buscarCategoria(String nome){ return repository.findByNome(nome);}
+    public Optional<Category> buscarCategoria(String nome){ return repository.findByName(nome);}
 
     /**
      * Função que busca todas as categorias dentro do banco de dados.
      *
      * @return
      */
-    public List<Categoria> buscarAll(){return repository.findAll();};
+    public List<Category> buscarAll(){return repository.findAll();};
 
 
     /**
      * Salva uma categoria no banco de dados.
      * 
-     * @param categoria
+     * @param category
      * @return repository.save(categoria)
      */
-    public Categoria criarCategoria(Categoria categoria){
-        Optional<Categoria> categoriaExistente = repository.findByNome(categoria.getNome());
+    public Category criarCategoria(Category category){
+        Optional<Category> categoriaExistente = repository.findByName(category.getName());
         if(categoriaExistente.isPresent()){
             throw new IllegalStateException("Já existe uma categoria com este nome.");
         }
-        return repository.save(categoria);
+        return repository.save(category);
     }
 
     /**
      * Remove apenas uma categoria do banco de dados.
      * 
-     * @param categoria
+     * @param category
      */
-    public void deletarCategoria(Categoria categoria){
-        repository.delete(categoria);
+    public void deletarCategoria(Category category){
+        repository.delete(category);
     }
     
     /**
@@ -81,16 +81,16 @@ public class CategoriaService {
      * Edita uma categoria, utilizando o id da que será alterada para o objeto Categoria novo.
      *
      * @param idCategoria
-     * @param categoriaAtualizada
+     * @param categoryAtualizada
      * @return salva uma nova categoria
      */
     @Transactional
-    public Categoria editarCategoria(Long idCategoria, Categoria categoriaAtualizada){
-        Categoria categoriaExist = repository.findById(idCategoria)
+    public Category editarCategoria(Long idCategoria, Category categoryAtualizada){
+        Category categoryExist = repository.findById(idCategoria)
                         .orElseThrow(() -> new IllegalStateException("Categoria com ID " + idCategoria + " não encontrada."));
-        categoriaExist.setNome(categoriaAtualizada.getNome());
-        categoriaExist.setDescricao(categoriaAtualizada.getDescricao());
+        categoryExist.setName(categoryAtualizada.getName());
+        categoryExist.setDescription(categoryAtualizada.getDescription());
 
-        return repository.save(categoriaExist);
+        return repository.save(categoryExist);
     }
 }

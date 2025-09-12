@@ -1,6 +1,6 @@
 package com.malfaa.pmdp.model.enums;
 
-public enum Agendamento {
+public enum Scheduling {
     AGENDADA,
     CONCLUIDA,
     CANCELADA

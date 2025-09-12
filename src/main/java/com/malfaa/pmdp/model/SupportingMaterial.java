@@ -7,22 +7,22 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class MaterialApoio {
+public class SupportingMaterial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "descricao", columnDefinition = "TEXT", nullable = false)
-    private String descricao;
+    @Column(name = "description", columnDefinition = "TEXT", nullable = false)
+    private String description;
 
-    @Column(name="link_arquivo", nullable = false)
-    private String linkArquivo;
+    @Column(name="file_url", nullable = false)
+    private String fileUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_id", nullable = false)
     private Mentor mentor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sessao_id")
-    private Sessao sessao;
+    @JoinColumn(name = "session_id")
+    private Session session;
 }
