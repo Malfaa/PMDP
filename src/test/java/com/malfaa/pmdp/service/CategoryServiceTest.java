@@ -28,7 +28,7 @@ class CategoryServiceTest {
 
     @BeforeEach
     void setUp() {
-
+        
     }
 
     @AfterEach
@@ -76,6 +76,60 @@ class CategoryServiceTest {
         verify(categoryRepository, times(1)).save(any(Category.class));
     }
 
+    /**
+     * createCategory with Exception
+     */
+    @Test
+    void deveLancarExcecaoAoCriarCategoriaExistente(){
+        CategoryDTO inputDTO = new CategoryDTO(null, "Tecnologia", "Teste");
+
+        Category categoryExistente = new Category();
+        categoryExistente.setId(1L);
+        categoryExistente.setName(inputDTO.name());
+        categoryExistente.setDescription(inputDTO.description());
+
+        when(categoryRepository.findByName("Tecnologia")).thenReturn(Optional.of(categoryExistente));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->{
+            categoryService.createCategory(inputDTO);
+        });
+
+        assertEquals("Já existe uma categoria com este nome.", exception.getMessage());
+
+        verify(categoryRepository, never()).save(any(Category.class));
+    }
+    
+    @Test
+    void buscaCategoryExisteEFazAlteracaoPorOutroDTO() {
+        Long categoryId = 1L;
+        Category updateRequest = new Category();
+        updateRequest.setName("Tecnologia Editada");
+        updateRequest.setDescription("Descrição Teste editada");
+
+        Category categoriaExistente = new Category();
+        categoriaExistente.setId(categoryId);
+        categoriaExistente.setName("Nome Antigo");
+        categoriaExistente.setDescription("Descrição Antiga");
+
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(categoriaExistente));
+        when(categoryRepository.save(any(Category.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        CategoryDTO resultadoDTO = categoryService.editCategory(categoryId, updateRequest);
+
+        assertNotNull(resultadoDTO);
+        assertEquals(categoryId, resultadoDTO.id());
+        assertEquals("Tecnologia Editada", resultadoDTO.name());
+
+        verify(categoryRepository, times(1)).findById(categoryId);
+        verify(categoryRepository, times(1)).save(any(Category.class));
+
+    }
+
+    @Test
+    void deveLancarExcecaoAoTentarEditarCategoryQueNaoExista(){
+
+    }
+  
     @Test
     void deleteCategory() {
     }
@@ -84,7 +138,5 @@ class CategoryServiceTest {
     void deleteCategories() {
     }
 
-    @Test
-    void editCategory() {
-    }
+    
 }

@@ -1,39 +1,52 @@
 package com.malfaa.pmdp.service;
 
+import com.malfaa.pmdp.dto.UserCreateDTO;
+import com.malfaa.pmdp.dto.UserResponseDTO;
 import com.malfaa.pmdp.model.User;
-import com.malfaa.pmdp.repository.UsuarioRepository;
+import com.malfaa.pmdp.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     //RETORNA DA MÁQUINA A ZONA PARA MEDIR CORRETAMENTE O FUSO HORÁRIO
     @Transactional(readOnly = true)
-    public Optional<User> searchById(Long id){ return usuarioRepository.findById(id);}
+    public UserResponseDTO searchById(Long id){ 
+        User user = usuarioRepository.findById(id).orElseThrow(() -> new IllegalStateException("Usuário não encontrado."));
+        return convertToResponseDTO(user);
+    }
 
     @Transactional(readOnly = true)
-    public Optional<User> searchByEmail(String email){ return usuarioRepository.findByEmail(email);}
+    public UserResponseDTO searchByEmail(String email){ 
+        User user = usuarioRepository.findByEmail(email).orElseThrow(() -> new IllegalStateException("Usuário não encontrado."));
+        return convertToResponseDTO(user);
+    }
 
     @Transactional(readOnly = true)
-    public List<User> searchAll(){ return usuarioRepository.findAll();}
+    public List<UserResponseDTO> searchAll(){ 
+        List<User> user = usuarioRepository.findAll();
+        return user.stream().map( this::convertToResponseDTO).collect(Collectors.toList());
+    }
 
     @Transactional(readOnly = true)
     public List<User> searchByFilteredUsers(List<Long> ids){ return usuarioRepository.findAllById(ids);}
 
     @Transactional
-    public User createUser(User novoUser){
+    public UserCreateDTO createUser(User novoUser){
         Optional<User> userExist = usuarioRepository.findByEmail(novoUser.getEmail());
         if (userExist.isPresent()){
             throw new IllegalArgumentException("Usuário com este e-mail já existe!");
@@ -41,7 +54,8 @@ public class UserService {
         String senhaCriptografada = passwordEncoder.encode(novoUser.getPassword());
         novoUser.setPassword(senhaCriptografada);
 
-        return usuarioRepository.save(novoUser);
+        User userSaved = usuarioRepository.save(novoUser);
+        return convertToCreateDTO(userSaved);
     }
 
     @Transactional
@@ -75,4 +89,13 @@ public class UserService {
 
     @Transactional
     public void deleteAllUsers(){ usuarioRepository.deleteAll();}
+
+    private UserCreateDTO convertToCreateDTO(User user){
+        return new UserCreateDTO(user.getName(), user.getEmail(), user.getPassword(), user.getCpf(), user.getBirthday(), user.getType());
+    };
+
+    private UserResponseDTO convertToResponseDTO(User user){
+        return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getType());
+    };
+    
 }

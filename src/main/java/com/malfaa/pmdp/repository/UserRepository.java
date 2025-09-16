@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.malfaa.pmdp.model.User;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 }
