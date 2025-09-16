@@ -2,12 +2,14 @@ package com.malfaa.pmdp.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.malfaa.pmdp.model.Category;
 import com.malfaa.pmdp.model.Mentor;
 import com.malfaa.pmdp.repository.MentorRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MentorService {
@@ -17,31 +19,41 @@ public class MentorService {
         this.mentorRepository = repository;
     }
 
-    public Optional<Mentor> buscaPorId(Long id){
+    @Transactional(readOnly = true)
+    public Optional<Mentor> searchById(Long id){
         return mentorRepository.findById(id);
     }
 
-    public List<Mentor> buscaPorFormacaoAcademica(String formacao){
+    @Transactional(readOnly = true)
+    public List<Mentor> searchByAcademicFormation(String formacao){
         //todo adicionar algum tipo de filtro, mesmo que escreve pela metade ou algo do tipo
         return mentorRepository.findByAcademicFormation(formacao);
     }
 
-    public List<Mentor> buscaPorExperienciaProfissional(String experiencia){
+    @Transactional(readOnly = true)
+    public List<Mentor> searchByProfessionalExperience(String experiencia){
         return mentorRepository.findByProfessionalExperience(experiencia);
     }
 
-    public List<Mentor> buscaPorCategoria(Category categoria){
-        return mentorRepository.findByCategories(categoria);
+    @Transactional(readOnly = true)
+    public List<Mentor> searchByCategories(Set<Category> categorias){
+        return mentorRepository.findByCategories(categorias);
     }
 
-    public List<Mentor> buscaPorTodos(){
+    @Transactional(readOnly = true)
+    public List<Mentor> searchAll(){
         return mentorRepository.findAll();
     }
 
 
-    public void deletarMentor(Mentor mentor){ mentorRepository.delete(mentor);}
-    public void deletarPorId(Long id){ mentorRepository. deleteById(id);}
-    public void deletarTodosMentores(){ mentorRepository.deleteAll();}
+    @Transactional
+    public void deleteMentor(Mentor mentor){ mentorRepository.delete(mentor);}
+
+    @Transactional
+    public void deleteById(Long id){ mentorRepository. deleteById(id);}
+
+    @Transactional
+    public void deleteAllMentors(){ mentorRepository.deleteAll();}
     
 
 }

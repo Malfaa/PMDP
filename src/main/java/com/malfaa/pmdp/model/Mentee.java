@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@DiscriminatorValue("MENTORADO")
+@DiscriminatorValue("MENTEE")
 public class Mentee extends User {
     @Column(columnDefinition = "TEXT")
     private String progress;
@@ -20,10 +20,10 @@ public class Mentee extends User {
     @Column(name = "interests")
     private Set<String> interests = new HashSet<>();
 
-    @OneToMany(mappedBy = "mentorado")
+    @OneToMany(mappedBy = "mentee")
     private Set<Session> sessions = new HashSet<>();
 
     @OneToMany(mappedBy = "mentee")
-    private Set<Assessment> reviews = new HashSet<>();
+    private Set<Review> reviews = new HashSet<>();
 
 }

@@ -1,6 +1,6 @@
 package com.malfaa.pmdp.service;
 
-import com.malfaa.pmdp.model.Assessment;
+import com.malfaa.pmdp.model.Review;
 import com.malfaa.pmdp.model.Mentee;
 import com.malfaa.pmdp.model.Session;
 import com.malfaa.pmdp.model.enums.Scheduling;
@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AvaliacaoService {
+public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public AvaliacaoService(ReviewRepository repository){
+    public ReviewService(ReviewRepository repository){
         this.reviewRepository = repository;
     }
 
@@ -26,7 +26,8 @@ public class AvaliacaoService {
      * @param id
      * @return Avaliacao
      */
-    public Optional<Assessment> buscarPorId(Long id){ return reviewRepository.findById(id);}
+    @Transactional(readOnly = true)
+    public Optional<Review> searchById(Long id){ return reviewRepository.findById(id);}
 
     /**
      * Busca uma lista de avaliações utilizando o Mentorado como pesquisa.
@@ -34,7 +35,8 @@ public class AvaliacaoService {
      * @param mentee
      * @return List<Avaliacao>
      */
-    public List<Assessment> buscarPorMentorado(Mentee mentee){ return reviewRepository.findByMentee(mentee);}
+    @Transactional(readOnly = true)
+    public List<Review> searchByMentee(Mentee mentee){ return reviewRepository.findByMentee(mentee);}
 
     /**
      * Busca por uma avaliação utilizando a Sessão como pesquisa.
@@ -42,7 +44,8 @@ public class AvaliacaoService {
      * @param session
      * @return Avaliacao
      */
-    public Optional<Assessment> buscarPorSessao(Session session){ return reviewRepository.findBySession(session);}
+    @Transactional(readOnly = true)
+    public Optional<Review> searchBySession(Session session){ return reviewRepository.findBySession(session);}
 
     /**
      * Busca por uma lista de avaliações utilizando a nota como pesquisa.
@@ -50,23 +53,24 @@ public class AvaliacaoService {
      * @param nota
      * @return List<Avaliacao>
      */
-    public List<Assessment> buscarPorNota(Integer nota){ return reviewRepository.findByGrade(nota);}
+    @Transactional(readOnly = true)
+    public List<Review> searchByGrade(Integer nota){ return reviewRepository.findByGrade(nota);}
 
     /**
      * Cria uma nova avaliação baseada nas condições presentes.
      *
-     * @param novaAssessment
+     * @param novaReview
      * @return
      */
     @Transactional
-    public Assessment criarAvaliacao(Assessment novaAssessment){
-        Session session = novaAssessment.getSession();
+    public Review createReview(Review novaReview){
+        Session session = novaReview.getSession();
         if(session == null){
             throw new IllegalArgumentException("A avaliação deve estar associada a uma sessão.");
         }
 
         //Regra 1 (UC06)
-        Optional<Assessment> avaliacaoExistente = reviewRepository.findBySession(session);
+        Optional<Review> avaliacaoExistente = reviewRepository.findBySession(session);
         if(avaliacaoExistente.isPresent()){
             throw new IllegalStateException("Esta sessão já foi avaliada.");
         }
@@ -77,17 +81,19 @@ public class AvaliacaoService {
         }
 
         //Regra 3 (UC06)
-        validarNota(novaAssessment.getGrade());
+        validateGrade(novaReview.getGrade());
 
-        return reviewRepository.save(novaAssessment);
+        return reviewRepository.save(novaReview);
     }
 
+    @Transactional
+    public void deleteReview(Review review){ reviewRepository.delete(review);}
 
-    public void deletarAvaliacao(Assessment assessment){ reviewRepository.delete(assessment);}
+    @Transactional
+    public void deleteReviewById(Long id){ reviewRepository.deleteById(id);}
 
-    public void deletarAvaliacaoPorId(Long id){ reviewRepository.deleteById(id);}
-
-    public void deletarTodasAsAvaliacoes(){ reviewRepository.deleteAll();}
+    @Transactional
+    public void deleteAllReviews(){ reviewRepository.deleteAll();}
 
     /**
      * Edita uma avaliação já existente.
@@ -98,15 +104,15 @@ public class AvaliacaoService {
      * @return avaliacaoExistente
      */
     @Transactional
-    public Assessment editarAvaliacao(Long id, Integer novaNota, String novoComentario){
-        Assessment assessmentExistente = reviewRepository.findById(id).orElseThrow(()-> new RuntimeException("Avaliação com ID "+ id + " não encontrada."));
-        validarNota(novaNota);
-        assessmentExistente.setGrade(novaNota);
-        assessmentExistente.setComment(novoComentario);
-        return reviewRepository.save(assessmentExistente);
+    public Review editReview(Long id, Integer novaNota, String novoComentario){
+        Review reviewExistente = reviewRepository.findById(id).orElseThrow(()-> new RuntimeException("Avaliação com ID "+ id + " não encontrada."));
+        validateGrade(novaNota);
+        reviewExistente.setGrade(novaNota);
+        reviewExistente.setComment(novoComentario);
+        return reviewRepository.save(reviewExistente);
     }
 
-    private void validarNota(Integer nota) {
+    private void validateGrade(Integer nota) {
         int NOTA_MAXIMA = 5;
         int NOTA_MINIMA = 1;
         if (nota == null || nota < NOTA_MINIMA || nota > NOTA_MAXIMA) {

@@ -14,5 +14,5 @@ import org.springframework.stereotype.Repository;
 public interface SupportingMaterialRepository extends JpaRepository<SupportingMaterial, Long> {
     Optional<String> findByUrlFile(String link);
     List<SupportingMaterial> findByMentor(Mentor mentor);
-    List<SupportingMaterial> findBySessao(Session session);
+    List<SupportingMaterial> findBySession(Session session);
 }
