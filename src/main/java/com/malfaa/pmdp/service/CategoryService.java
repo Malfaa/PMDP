@@ -2,7 +2,9 @@ package com.malfaa.pmdp.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.malfaa.pmdp.dto.CategoryDTO;
 import com.malfaa.pmdp.model.Category;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class CategoriaService {
+public class CategoryService {
     private final CategoryRepository repository;
 
-    public CategoriaService(CategoryRepository repository){
+    public CategoryService(CategoryRepository repository){
         this.repository = repository;
     }
 
@@ -24,7 +26,12 @@ public class CategoriaService {
      * @param id
      * @return
      */
-    public Optional<Category> buscarCategoria(Long id){return repository.findById(id);}
+    @Transactional(readOnly = true)
+    public CategoryDTO searchById(Long id){
+        Category categoryFound = repository.findById(id).orElseThrow(
+                ()-> new RuntimeException("Categoria não encontrada."));
+        return convertToDTO(categoryFound);
+    }
 
     /**
      * Função que busca uma categoria dentro do banco de dados utilizando o nome.
@@ -32,14 +39,25 @@ public class CategoriaService {
      * @param nome
      * @return
      */
-    public Optional<Category> buscarCategoria(String nome){ return repository.findByName(nome);}
+    @Transactional(readOnly = true)
+    public CategoryDTO searchByCategoryName(String nome){
+        Category categoryFound = repository.findByName(nome)
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada."));
+        return convertToDTO(categoryFound);
+    }
 
     /**
      * Função que busca todas as categorias dentro do banco de dados.
      *
      * @return
      */
-    public List<Category> buscarAll(){return repository.findAll();};
+    @Transactional(readOnly = true)
+    public List<CategoryDTO> searchAll(){
+        List<Category> listCategory = repository.findAll();
+        return listCategory.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
 
 
     /**
@@ -48,12 +66,20 @@ public class CategoriaService {
      * @param category
      * @return repository.save(categoria)
      */
-    public Category criarCategoria(Category category){
-        Optional<Category> categoriaExistente = repository.findByName(category.getName());
+    @Transactional
+    public CategoryDTO createCategory(CategoryDTO category){
+        Optional<Category> categoriaExistente = repository.findByName(category.name());
         if(categoriaExistente.isPresent()){
             throw new IllegalStateException("Já existe uma categoria com este nome.");
         }
-        return repository.save(category);
+
+        Category newCategory = new Category();
+        newCategory.setName(category.name());
+        newCategory.setDescription(category.description());
+
+        Category savedCategory = repository.save(newCategory);
+
+        return convertToDTO(savedCategory);
     }
 
     /**
@@ -61,7 +87,8 @@ public class CategoriaService {
      * 
      * @param category
      */
-    public void deletarCategoria(Category category){
+    @Transactional
+    public void deleteCategory(Category category){
         repository.delete(category);
     }
     
@@ -70,7 +97,8 @@ public class CategoriaService {
      * 
      * @param listaCategorias
      */
-    public void deletarCategorias(List<Long> listaCategorias){
+    @Transactional
+    public void deleteCategories(List<Long> listaCategorias){
         if(listaCategorias.isEmpty() || listaCategorias == null){
             return;
         }
@@ -85,12 +113,22 @@ public class CategoriaService {
      * @return salva uma nova categoria
      */
     @Transactional
-    public Category editarCategoria(Long idCategoria, Category categoryAtualizada){
+    public CategoryDTO editCategory(Long idCategoria, Category categoryAtualizada){
         Category categoryExist = repository.findById(idCategoria)
                         .orElseThrow(() -> new IllegalStateException("Categoria com ID " + idCategoria + " não encontrada."));
         categoryExist.setName(categoryAtualizada.getName());
         categoryExist.setDescription(categoryAtualizada.getDescription());
 
-        return repository.save(categoryExist);
+        Category savedCategory = repository.save(categoryExist);
+
+        return convertToDTO(savedCategory);
+    }
+
+    private CategoryDTO convertToDTO(Category category){
+        return new CategoryDTO(
+                category.getId(),
+                category.getName(),
+                category.getDescription()
+        );
     }
 }
