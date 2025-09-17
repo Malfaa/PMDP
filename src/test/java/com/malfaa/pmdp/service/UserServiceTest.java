@@ -11,7 +11,9 @@ import com.malfaa.pmdp.dto.UserResponseDTO;
 import com.malfaa.pmdp.model.User;
 import com.malfaa.pmdp.model.enums.Perfil;
 import com.malfaa.pmdp.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +26,34 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks()
     private UserService userService;
+
+    @Test
+    void verificaSeHaUserERetorna(){
+        UserResponseDTO responseDTO = new UserResponseDTO(
+                null, "Nome Genérico", "email@gmail.com", Perfil.Administrador
+        );
+
+        User userExistente = new User();
+        userExistente.setId(1L);
+        userExistente.setName(responseDTO.name());
+        userExistente.setEmail(responseDTO.email());
+        userExistente.setType(responseDTO.type());
+
+        when(userRepository.findByEmail("email@gmail.com")).thenReturn(Optional.of(userExistente));
+
+        UserResponseDTO result = userService.searchByEmail(userExistente.getEmail());
+
+        assertNotNull(result);
+        assertEquals("Nome Genérico", result.name());
+        assertEquals("email@gmail.com", result.email());
+
+        verify(userRepository, times(1)).findByEmail("email@gmail.com");
+    }
 
     @Test
     void deveVerificarSeHaRetornoDeListaUsers(){
@@ -59,7 +87,7 @@ public class UserServiceTest {
     @Test
     void deveCriarNovoUsuarioVerificandoSeJaNaoExisteAnteriormente(){
         UserCreateDTO inputDTO = new UserCreateDTO(
-            "Joel", "joel@gmail.com", "senha123","111.222.333-11.",2000-10-01, Perfil.Mentorado
+            "Joel", "joel@gmail.com", "senha123","111.222.333-11.", LocalDate.of(2000,10,1), Perfil.Mentorado
             );
 
         User salvarUser = new User();
@@ -71,6 +99,7 @@ public class UserServiceTest {
         salvarUser.setType(inputDTO.type());
         
         when(userRepository.findByEmail("joel@gmail.com")).thenReturn(Optional.empty());
+        when(passwordEncoder.encode(anyString())).thenReturn("senha123");
         when(userRepository.save(any(User.class))).thenReturn(salvarUser);
 
         UserCreateDTO result = userService.createUser(salvarUser);
@@ -79,7 +108,6 @@ public class UserServiceTest {
         assertEquals("joel@gmail.com", result.email());
         assertEquals("senha123", result.password());
 
-        verify();
-
+        verify(userRepository, times(1)).save(any(User.class));
     }
 }
