@@ -1,5 +1,6 @@
 package com.malfaa.pmdp.service;
 
+import com.malfaa.pmdp.dto.FeedbackDTO;
 import com.malfaa.pmdp.model.Feedback;
 import com.malfaa.pmdp.model.Mentee;
 import com.malfaa.pmdp.model.Mentor;
@@ -21,27 +22,36 @@ public class FeedbackService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Feedback> searchById(Long id){
-        return feedbackRepository.findById(id);
+    public FeedbackDTO searchById(Long id){
+        Feedback fb = feedbackRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Feedback não encontrado"));
+        return convertToDto(fb);
     }
 
     @Transactional(readOnly = true)
-    public List<Feedback> searchByMentor(Mentor mentor){
-        return feedbackRepository.findByMentor(mentor);
+    public List<FeedbackDTO> searchByMentor(Mentor mentor){
+        return feedbackRepository.findByMentor(mentor)
+                .stream().map(this::convertToDto)
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public List<Feedback> searchByMentee(Mentee mentee){
-        return feedbackRepository.findByMentee(mentee);
+    public List<FeedbackDTO> searchByMentee(Mentee mentee){
+        return feedbackRepository.findByMentee(mentee)
+                .stream().map(this::convertToDto)
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public Optional<Feedback> searchBySession(Session session){
-        return feedbackRepository.findBySession(session);
+    public FeedbackDTO searchBySession(Session session){
+        Feedback result = feedbackRepository.findBySession(session).orElseThrow(
+                ()-> new RuntimeException("Session não encontrada.")
+        );
+        return convertToDto(result);
     }
 
     @Transactional
-    public Feedback createFeedback(Feedback feedback){
+    public FeedbackDTO createFeedback(Feedback feedback){
         if (feedback.getSession() == null || feedback.getSession().getId() == null) {
             throw new IllegalArgumentException("Feedback deve estar associado a uma sessão existente.");
         }
@@ -51,11 +61,11 @@ public class FeedbackService {
             throw new IllegalArgumentException("Feedback já existe");
         }
 
-        return feedbackRepository.save(feedback);
+        return convertToDto(feedbackRepository.save(feedback));
     }
 
     @Transactional
-    public Feedback editFeedback(Long oldId, String newComment){
+    public FeedbackDTO editFeedback(Long oldId, String newComment){
         Feedback feedback = feedbackRepository.findById(oldId)
                 .orElseThrow(() -> new IllegalStateException("Feedback não existe!"));
 
@@ -65,7 +75,7 @@ public class FeedbackService {
 
         feedback.setComment(newComment);
 
-        return feedbackRepository.save(feedback);
+        return convertToDto(feedbackRepository.save(feedback));
     }
 
     @Transactional
@@ -76,6 +86,10 @@ public class FeedbackService {
     @Transactional
     public void deleteAllFeedback(){
         feedbackRepository.deleteAll();
+    }
+
+    private FeedbackDTO convertToDto(Feedback fb){
+        return new FeedbackDTO(fb.getId(), fb.getComment());
     }
 
 }

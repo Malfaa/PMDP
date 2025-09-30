@@ -1,7 +1,7 @@
 package com.malfaa.pmdp.service;
 
-import com.malfaa.pmdp.dto.UserCreateDTO;
-import com.malfaa.pmdp.dto.UserResponseDTO;
+import com.malfaa.pmdp.dto.userCreateDto.UserCreateDTO;
+import com.malfaa.pmdp.dto.userCreateDto.UserResponseDTO;
 import com.malfaa.pmdp.model.User;
 import com.malfaa.pmdp.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service

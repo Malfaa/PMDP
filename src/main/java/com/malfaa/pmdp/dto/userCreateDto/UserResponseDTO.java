@@ -1,4 +1,4 @@
-package com.malfaa.pmdp.dto;
+package com.malfaa.pmdp.dto.userCreateDto;
 
 import com.malfaa.pmdp.model.enums.Perfil;
 

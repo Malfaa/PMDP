@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.malfaa.pmdp.dto.UserCreateDTO;
-import com.malfaa.pmdp.dto.UserResponseDTO;
+import com.malfaa.pmdp.dto.userCreateDto.UserCreateDTO;
+import com.malfaa.pmdp.dto.userCreateDto.UserResponseDTO;
 import com.malfaa.pmdp.model.User;
 import com.malfaa.pmdp.model.enums.Perfil;
 import com.malfaa.pmdp.repository.UserRepository;

@@ -1,4 +1,4 @@
-package com.malfaa.pmdp.dto;
+package com.malfaa.pmdp.dto.userCreateDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
