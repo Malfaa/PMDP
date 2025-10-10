@@ -21,6 +21,30 @@ public class UserMapper {
         return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getType());
     }
 
+    public User createDtoToEntity(UserCreateDto dto){
+        if (dto == null){ return null;}
+
+        User user = new User();
+        user.setName(dto.name);
+        user.setEmail(dto.email);
+        user.setPassword(dto.password);
+        user.setCpf(dto.cpf);
+        user.setBirthday(dto.birthday);
+        user.setType(dto.type);
+
+        return user;
+    }
+    
+    public User responseDtoToEntity(UserResponseDTO dto){
+        if (dto == null){ return null;}
+
+        User user = new User();
+        user.setId(dto.id);
+        user.setName(dto.name);
+        user.setEmail(dto.email);
+        user.setType(dto.type);
+    }
+
     public List<UserResponseDTO> listToResponseDto(List<User> users){
         if (users == null){return null;}
         return users.stream().map(this::responseToDto).collect(Collectors.toList());

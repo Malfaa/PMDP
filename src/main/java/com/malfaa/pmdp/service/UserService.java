@@ -48,38 +48,51 @@ public class UserService {
     }
 
     @Transactional
-    public UserCreateDTO createUser(User novoUser){
-        Optional<User> userExist = usuarioRepository.findByEmail(novoUser.getEmail());
+    public UserResponseDTO createUser(UserCreateDTO createDTO){
+        Optional<User> userExist = usuarioRepository.findByEmail(createDTO.email());
         if (userExist.isPresent()){
             throw new IllegalArgumentException("Usuário com este e-mail já existe!");
         }
-        String senhaCriptografada = passwordEncoder.encode(novoUser.getPassword());
-        novoUser.setPassword(senhaCriptografada);
+        User newUser = userMapper.createDtoToEntity(createDTO);
 
-        User userSaved = usuarioRepository.save(novoUser);
-        return userMapper.createToDto(userSaved);
+        String senhaCriptografada = passwordEncoder.encode(createDTO.password());
+        newUser.setPassword(senhaCriptografada);
+        User userSaved = usuarioRepository.save(newUser);
+        return userMapper.responseToDto(userSaved);
     }
 
     @Transactional
-    public UserResponseDTO editUser(Long usuarioAntigo, User userAtualizado){
+    public UserResponseDTO editUser(Long usuarioAntigo, UserCreateDTO createDTOUpdated){
         User user = usuarioRepository.findById(usuarioAntigo).orElseThrow(
                 () -> new RuntimeException("Usuario do ID: "+ usuarioAntigo + " não encontrado")
         );
 
-        Optional.ofNullable(userAtualizado.getName()).ifPresent(user::setName);
-        Optional.ofNullable(userAtualizado.getPassword()).ifPresent(
+        Optional.ofNullable(createDTOUpdated.name()).ifPresent(user::setName);
+        Optional.ofNullable(createDTOUpdated.password()).ifPresent(
                 senha -> user.setPassword(passwordEncoder.encode(senha))
         );
-        Optional.ofNullable(userAtualizado.getEmail()).ifPresent(user::setEmail);
-        Optional.ofNullable(userAtualizado.getType()).ifPresent(user::setType);
-        return userMapper.responseToDto(usuarioRepository.save(user));
+        Optional.ofNullable(createDTOUpdated.email()).ifPresent(user::setEmail);
+
+        User userEdited = usuarioRepository.save(user);
+
+        return userMapper.responseToDto(userEdited);
     }
 
     @Transactional
-    public void deleteUser(User user){ usuarioRepository.delete(user);}
+    public void deleteUser(UserResponseDTO responseDTO){ 
+        User userSearch = usuarioRepository.findById(responseDTO.id()).orElseThrow(
+            () -> new RuntimeException("Usuário não encontrado")
+        );
+        usuarioRepository.delete(userSearch);
+    }
 
-    @Transactional
-    public void deleteUserById(Long id){ usuarioRepository.deleteById(id);}
+   @Transactional
+    public void deleteUserById(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+        usuarioRepository.deleteById(id); 
+    }
 
     @Transactional
     public void deleteUserByEmail(String email){
@@ -89,7 +102,10 @@ public class UserService {
         usuarioRepository.deleteById(user.getId());
     }
 
+    /*
     @Transactional
-    public void deleteAllUsers(){ usuarioRepository.deleteAll();}
-    
+    public void deleteAllUsers(){ 
+        usuarioRepository.deleteAll();
+    }
+    */
 }
