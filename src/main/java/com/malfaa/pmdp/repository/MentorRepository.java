@@ -10,9 +10,9 @@ import java.util.Set;
 
 @Repository
 public interface MentorRepository extends JpaRepository<Mentor, Long> {
-    List<Mentor> findByAcademicFormation(String formation);
-    List<Mentor> findByProfessionalExperience(String profissao);
-    List<Mentor> findByCategories(Set<Category> category);
-    List<Mentor> findByCategoryName(String nomeCategoria);
+    List<Mentor> findByAcademicFormationContainingIgnoreCase(String term);
+    List<Mentor> findByProfessionalExperienceContainingIgnoreCase(String term);
+    List<Mentor> findByCategoriesIn(Set<Category> categories);
+    List<Mentor> findByCategories_Name(String categoryName);
 }
 

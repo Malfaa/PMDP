@@ -1,5 +1,6 @@
 package com.malfaa.pmdp.service;
 
+import com.malfaa.pmdp.dto.MenteeDTO;
 import com.malfaa.pmdp.model.Mentee;
 import com.malfaa.pmdp.repository.MenteeRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class MenteeService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Mentee> searchById(Long id){
+    public MenteeDTO searchById(Long id){
         return menteeRepository.findById(id);
     }
 
@@ -39,5 +40,7 @@ public class MenteeService {
     public void deleteAll(){
         menteeRepository.deleteAll();
     }
+
+    private MenteeDTO convertoToDTO
 
 }

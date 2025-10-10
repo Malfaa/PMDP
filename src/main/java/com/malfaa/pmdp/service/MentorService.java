@@ -1,9 +1,10 @@
 package com.malfaa.pmdp.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
+import com.malfaa.pmdp.dto.mentorDTO.MentorResponseDTO;
+import com.malfaa.pmdp.mapper.MentorMapper;
 import org.springframework.stereotype.Service;
 
 import com.malfaa.pmdp.model.Category;
@@ -14,35 +15,46 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MentorService {
     private final MentorRepository mentorRepository;
+    private final MentorMapper mentorMapper;
 
-    public MentorService(MentorRepository repository){
+    public MentorService(MentorRepository repository, MentorMapper mMapper){
         this.mentorRepository = repository;
+        this.mentorMapper = mMapper;
     }
 
     @Transactional(readOnly = true)
-    public Optional<Mentor> searchById(Long id){
-        return mentorRepository.findById(id);
+    public MentorResponseDTO searchById(Long id){
+        return mentorMapper.toDto(mentorRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Mentor com id: "+id+" não encontrado.")
+        ));
     }
 
     @Transactional(readOnly = true)
-    public List<Mentor> searchByAcademicFormation(String formacao){
-        //todo adicionar algum tipo de filtro, mesmo que escreve pela metade ou algo do tipo
-        return mentorRepository.findByAcademicFormation(formacao);
+    public List<MentorResponseDTO> searchByAcademicFormation(String term){
+        List<Mentor> mentors = mentorRepository.findByAcademicFormationContainingIgnoreCase(term);
+        return mentorMapper.listToDto(mentors);
     }
 
     @Transactional(readOnly = true)
-    public List<Mentor> searchByProfessionalExperience(String experiencia){
-        return mentorRepository.findByProfessionalExperience(experiencia);
+    public List<MentorResponseDTO> searchByProfessionalExperience(String term){
+        List<Mentor> mentors = mentorRepository.findByProfessionalExperienceContainingIgnoreCase(term);
+        return mentorMapper.listToDto(mentors);
     }
 
     @Transactional(readOnly = true)
-    public List<Mentor> searchByCategories(Set<Category> categorias){
-        return mentorRepository.findByCategories(categorias);
+    public List<MentorResponseDTO> searchByCategories(Set<Category> categories){
+        List<Mentor> mentors = mentorRepository.findByCategoriesIn(categories);
+        return mentorMapper.listToDto(mentors);
     }
 
     @Transactional(readOnly = true)
-    public List<Mentor> searchAll(){
-        return mentorRepository.findAll();
+    public List<MentorResponseDTO> searchAll(){
+        return mentorMapper.listToDto(mentorRepository.findAll());
+    }
+
+    @Transactional
+    public MentorResponseDTO createMentor(Mentor mentor){
+
     }
 
 
@@ -50,10 +62,17 @@ public class MentorService {
     public void deleteMentor(Mentor mentor){ mentorRepository.delete(mentor);}
 
     @Transactional
-    public void deleteById(Long id){ mentorRepository. deleteById(id);}
+    public void deleteById(Long id){
+        if (!mentorRepository.existsById(id)) {
+            throw new RuntimeException("Mentor com id: " + id + " não encontrado.");
+        }
+        mentorRepository.deleteById(id);}
 
     @Transactional
-    public void deleteAllMentors(){ mentorRepository.deleteAll();}
+    public void deleteAllMentors(){
+        List<Mentor> allMentors = mentorRepository.findAll();
+        mentorRepository.deleteAll(allMentors);
+    }
     
 
 }

@@ -1,5 +1,7 @@
 package com.malfaa.pmdp.service;
 
+import com.malfaa.pmdp.dto.ReviewDTO;
+import com.malfaa.pmdp.mapper.ReviewMapper;
 import com.malfaa.pmdp.model.Review;
 import com.malfaa.pmdp.model.Mentee;
 import com.malfaa.pmdp.model.Session;
@@ -15,9 +17,11 @@ import java.util.Optional;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final ReviewMapper reviewMapper;
 
-    public ReviewService(ReviewRepository repository){
+    public ReviewService(ReviewRepository repository, ReviewMapper reviewMapper){
         this.reviewRepository = repository;
+        this.reviewMapper = reviewMapper;
     }
 
     /**
@@ -27,7 +31,11 @@ public class ReviewService {
      * @return Avaliacao
      */
     @Transactional(readOnly = true)
-    public Optional<Review> searchById(Long id){ return reviewRepository.findById(id);}
+    public ReviewDTO searchById(Long id){
+        return reviewMapper.toDto(reviewRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Review por ID não encontrada"))
+        );
+    }
 
     /**
      * Busca uma lista de avaliações utilizando o Mentorado como pesquisa.
@@ -36,7 +44,7 @@ public class ReviewService {
      * @return List<Avaliacao>
      */
     @Transactional(readOnly = true)
-    public List<Review> searchByMentee(Mentee mentee){ return reviewRepository.findByMentee(mentee);}
+    public List<ReviewDTO> searchByMentee(Mentee mentee){ return reviewMapper.listToDTO(reviewRepository.findByMentee(mentee));}
 
     /**
      * Busca por uma avaliação utilizando a Sessão como pesquisa.
@@ -45,7 +53,11 @@ public class ReviewService {
      * @return Avaliacao
      */
     @Transactional(readOnly = true)
-    public Optional<Review> searchBySession(Session session){ return reviewRepository.findBySession(session);}
+    public ReviewDTO searchBySession(Session session){
+        return reviewMapper.toDto(reviewRepository.findBySession(session).orElseThrow(
+                ()->new RuntimeException("Review por sessão não encontrada."))
+        );
+    }
 
     /**
      * Busca por uma lista de avaliações utilizando a nota como pesquisa.
@@ -54,7 +66,9 @@ public class ReviewService {
      * @return List<Avaliacao>
      */
     @Transactional(readOnly = true)
-    public List<Review> searchByGrade(Integer nota){ return reviewRepository.findByGrade(nota);}
+    public List<ReviewDTO> searchByGrade(Integer nota){
+        return reviewMapper.listToDTO(reviewRepository.findByGrade(nota));
+    }
 
     /**
      * Cria uma nova avaliação baseada nas condições presentes.
@@ -63,7 +77,7 @@ public class ReviewService {
      * @return
      */
     @Transactional
-    public Review createReview(Review novaReview){
+    public ReviewDTO createReview(Review novaReview){
         Session session = novaReview.getSession();
         if(session == null){
             throw new IllegalArgumentException("A avaliação deve estar associada a uma sessão.");
@@ -83,7 +97,7 @@ public class ReviewService {
         //Regra 3 (UC06)
         validateGrade(novaReview.getGrade());
 
-        return reviewRepository.save(novaReview);
+        return reviewMapper.toDto(reviewRepository.save(novaReview));
     }
 
     @Transactional
@@ -104,12 +118,12 @@ public class ReviewService {
      * @return avaliacaoExistente
      */
     @Transactional
-    public Review editReview(Long id, Integer novaNota, String novoComentario){
+    public ReviewDTO editReview(Long id, Integer novaNota, String novoComentario){
         Review reviewExistente = reviewRepository.findById(id).orElseThrow(()-> new RuntimeException("Avaliação com ID "+ id + " não encontrada."));
         validateGrade(novaNota);
         reviewExistente.setGrade(novaNota);
         reviewExistente.setComment(novoComentario);
-        return reviewRepository.save(reviewExistente);
+        return reviewMapper.toDto(reviewRepository.save(reviewExistente));
     }
 
     private void validateGrade(Integer nota) {

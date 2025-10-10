@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.malfaa.pmdp.dto.CategoryDTO;
+import com.malfaa.pmdp.mapper.CategoryMapper;
 import com.malfaa.pmdp.model.Category;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CategoryService {
     private final CategoryRepository repository;
+    private final CategoryMapper categoryMapper;
 
-    public CategoryService(CategoryRepository repository){
+    public CategoryService(CategoryRepository repository, CategoryMapper cm){
         this.repository = repository;
+        this.categoryMapper = cm;
     }
 
     /**
@@ -30,7 +33,7 @@ public class CategoryService {
     public CategoryDTO searchById(Long id){
         Category categoryFound = repository.findById(id).orElseThrow(
                 ()-> new RuntimeException("Categoria não encontrada."));
-        return convertToDTO(categoryFound);
+        return categoryMapper.toDto(categoryFound);
     }
 
     /**
@@ -43,7 +46,7 @@ public class CategoryService {
     public CategoryDTO searchByCategoryName(String nome){
         Category categoryFound = repository.findByName(nome)
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada."));
-        return convertToDTO(categoryFound);
+        return categoryMapper.toDto(categoryFound);
     }
 
     /**
@@ -54,9 +57,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public List<CategoryDTO> searchAll(){
         List<Category> listCategory = repository.findAll();
-        return listCategory.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        return categoryMapper.toDtoList(listCategory);
     }
 
 
@@ -79,8 +80,10 @@ public class CategoryService {
 
         Category savedCategory = repository.save(newCategory);
 
-        return convertToDTO(savedCategory);
+        return categoryMapper.toDto(savedCategory);
     }
+
+    //FIXME Corrigir os DTOs, utilizar príncipio CQS, usar um DTO para cada situação específica.
 
     /**
      * Remove apenas uma categoria do banco de dados.
@@ -121,14 +124,6 @@ public class CategoryService {
 
         Category savedCategory = repository.save(categoryExist);
 
-        return convertToDTO(savedCategory);
-    }
-
-    private CategoryDTO convertToDTO(Category category){
-        return new CategoryDTO(
-                category.getId(),
-                category.getName(),
-                category.getDescription()
-        );
+        return categoryMapper.toDto(savedCategory);
     }
 }

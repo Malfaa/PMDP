@@ -1,6 +1,7 @@
 package com.malfaa.pmdp.service;
 
 import com.malfaa.pmdp.dto.FeedbackDTO;
+import com.malfaa.pmdp.mapper.FeedbackMapper;
 import com.malfaa.pmdp.model.Feedback;
 import com.malfaa.pmdp.model.Mentee;
 import com.malfaa.pmdp.model.Mentor;
@@ -16,30 +17,28 @@ import java.util.Optional;
 public class FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
+    private final FeedbackMapper feedbackMapper;
 
-    public FeedbackService (FeedbackRepository repository){
+    public FeedbackService (FeedbackRepository repository, FeedbackMapper fbmapper){
         this.feedbackRepository = repository;
+        this.feedbackMapper = fbmapper;
     }
 
     @Transactional(readOnly = true)
     public FeedbackDTO searchById(Long id){
         Feedback fb = feedbackRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Feedback não encontrado"));
-        return convertToDto(fb);
+        return feedbackMapper.toDto(fb);
     }
 
     @Transactional(readOnly = true)
     public List<FeedbackDTO> searchByMentor(Mentor mentor){
-        return feedbackRepository.findByMentor(mentor)
-                .stream().map(this::convertToDto)
-                .toList();
+        return feedbackMapper.listToDto(feedbackRepository.findByMentor(mentor));
     }
 
     @Transactional(readOnly = true)
     public List<FeedbackDTO> searchByMentee(Mentee mentee){
-        return feedbackRepository.findByMentee(mentee)
-                .stream().map(this::convertToDto)
-                .toList();
+        return feedbackMapper.listToDto(feedbackRepository.findByMentee(mentee));
     }
 
     @Transactional(readOnly = true)
@@ -47,7 +46,7 @@ public class FeedbackService {
         Feedback result = feedbackRepository.findBySession(session).orElseThrow(
                 ()-> new RuntimeException("Session não encontrada.")
         );
-        return convertToDto(result);
+        return feedbackMapper.toDto(result);
     }
 
     @Transactional
@@ -61,7 +60,7 @@ public class FeedbackService {
             throw new IllegalArgumentException("Feedback já existe");
         }
 
-        return convertToDto(feedbackRepository.save(feedback));
+        return feedbackMapper.toDto(feedbackRepository.save(feedback));
     }
 
     @Transactional
@@ -75,7 +74,7 @@ public class FeedbackService {
 
         feedback.setComment(newComment);
 
-        return convertToDto(feedbackRepository.save(feedback));
+        return feedbackMapper.toDto(feedbackRepository.save(feedback));
     }
 
     @Transactional
@@ -87,9 +86,4 @@ public class FeedbackService {
     public void deleteAllFeedback(){
         feedbackRepository.deleteAll();
     }
-
-    private FeedbackDTO convertToDto(Feedback fb){
-        return new FeedbackDTO(fb.getId(), fb.getComment());
-    }
-
 }
