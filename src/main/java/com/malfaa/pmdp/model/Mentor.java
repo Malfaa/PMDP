@@ -20,7 +20,7 @@ public class Mentor extends User {
     private String professionalExperience;
 
     @Column(columnDefinition = "TEXT")
-    private String perfilDescription;
+    private String profileDescription;
 
     @OneToOne(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
     private Calendar calendar;

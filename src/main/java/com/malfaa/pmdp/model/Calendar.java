@@ -28,5 +28,5 @@ public class Calendar {
     private Mentor associateMentor;
 
     @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Session> session = new HashSet<>();
+    private Set<Session> sessions = new HashSet<>();
 }

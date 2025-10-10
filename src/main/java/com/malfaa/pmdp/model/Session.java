@@ -25,7 +25,7 @@ public class Session {
 
     /**
      * Define o status que está o agendamento da sessão
-     * [AGENDADA, CONCLUIDA, CANCELADA]
+     * [DISPONIVEL, AGENDADA, CONCLUIDA, CANCELADA]
      */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
